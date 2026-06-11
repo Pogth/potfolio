@@ -1,0 +1,861 @@
+:root {
+    --bg-color: #111111;
+    --fg-color: #f8f9fa;
+    --orange-color: #ffb86c;
+    --sidebar-width: 80px; /* Default collapsed on mobile */
+}
+
+@media (min-width: 768px) {
+    :root {
+        --sidebar-width: 220px; /* Default expanded on desktop */
+    }
+}
+
+body, a, button {
+    cursor: none !important;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    overflow: hidden; /* Prevent vertical scrolling completely */
+}
+
+/* Horizontal Scrolling Container */
+.horizontal-scroll-wrapper {
+    display: flex;
+    flex-direction: column; /* Mobile vertical */
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* Vertical scroll on mobile */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    padding-left: 0; /* No sidebar on the left for mobile */
+    padding-bottom: 60px; /* Space for bottom nav on mobile */
+}
+
+@media (min-width: 768px) {
+    .horizontal-scroll-wrapper {
+        flex-direction: row; /* Desktop horizontal */
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scroll-padding-left: var(--sidebar-width);
+        padding-left: 0; /* Let spacer handle it on desktop */
+        padding-bottom: 0;
+    }
+}
+
+/* Force vertical sidebar layout everywhere */
+#sidebar {
+    width: var(--sidebar-width) !important;
+    height: 100vh !important;
+    border-right: 2px solid var(--border, #4a4a4a) !important;
+    border-bottom-width: 0px !important;
+}
+
+.desktop-sidebar, .desktop-spacer {
+    width: var(--sidebar-width) !important;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+}
+
+.horizontal-scroll-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Individual full-screen sections */
+.horizontal-section {
+    width: 100%;
+    min-height: 100vh;
+    flex-shrink: 0;
+    padding-top: 2rem; /* Reduced padding since mobile top bar is replaced by vertical sidebar */
+    padding-bottom: 2rem;
+    overflow-y: hidden; 
+}
+
+@media (min-width: 768px) {
+    .horizontal-section {
+        width: calc(100vw - var(--sidebar-width));
+        height: 100vh;
+        overflow-y: auto; /* Allow scrolling inside section if content is too tall */
+        padding-top: 0;
+        padding-bottom: 0;
+        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+    .horizontal-section::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Disable transitions when manually dragging */
+body.is-dragging-sidebar .desktop-sidebar,
+body.is-dragging-sidebar .desktop-spacer,
+body.is-dragging-sidebar .horizontal-section,
+body.is-dragging-sidebar .collapse-btn-pos {
+    transition: none !important;
+}
+
+/* Global button tracking for sidebar border */
+.collapse-btn-pos {
+    left: calc(var(--sidebar-width) - 16px);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.is-collapsed .collapse-btn-pos {
+    left: calc(80px - 16px) !important; /* Lock to the 80px mini-sidebar edge */
+}
+
+/* Sidebar mini-rail CSS */
+body.is-collapsed .nav-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+body.is-collapsed .sidebar-inner {
+    align-items: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+body.is-collapsed .nav-link {
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+body.is-collapsed #logo-container {
+    justify-content: center;
+    width: 100%;
+}
+
+body.is-collapsed #logo-text {
+    display: none !important;
+}
+
+body.is-collapsed #logo-container::before {
+    content: "P";
+}
+
+body.is-collapsed #sidebar .neo-button {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* Dark Dot Grid */
+.dot-grid-bg {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: -12px -12px;
+}
+
+/* Glitch Keyframes */
+@keyframes glitch {
+    0%, 90%, 100% {
+        transform: translate(0);
+        filter: none;
+    }
+    92% {
+        transform: translate(-4px, 2px);
+        filter: drop-shadow(2px 0 0 red) drop-shadow(-2px 0 0 cyan);
+    }
+    94% {
+        transform: translate(2px, -2px);
+        filter: drop-shadow(-2px 0 0 red) drop-shadow(2px 0 0 cyan);
+    }
+    96% {
+        transform: translate(-2px, -2px);
+        filter: none;
+    }
+    98% {
+        transform: translate(2px, 2px);
+        filter: drop-shadow(2px 0 0 magenta) drop-shadow(-2px 0 0 yellow);
+    }
+}
+
+.animate-glitch {
+    animation: glitch 4s infinite;
+}
+
+.animate-glitch-fast {
+    animation: glitch 2.5s infinite;
+}
+
+/* Blink Keyframe */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.animate-blink {
+    animation: blink 1s step-end infinite;
+}
+
+/* Marquee Animation */
+.marquee-wrapper {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    border-top: 2px solid var(--fg-color);
+    border-bottom: 2px solid var(--fg-color);
+    background-color: var(--bg-color);
+    padding: 0.75rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+.marquee-content {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+}
+
+.marquee-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    border-right: 2px solid var(--fg-color);
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Custom Selection */
+::selection {
+    background-color: var(--orange-color);
+    color: var(--bg-color);
+}
+
+/* Custom Invert Cursor */
+#custom-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 20px; height: 20px;
+    background: white;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    z-index: 99999;
+    transition: transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+}
+
+body.cursor-hover #custom-cursor {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+/* CRT Scanlines */
+.crt-scanlines::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 50;
+    pointer-events: none;
+}
+@keyframes flicker {
+    0% { opacity: 0.95; }
+    5% { opacity: 0.85; }
+    10% { opacity: 0.95; }
+    15% { opacity: 1; }
+    100% { opacity: 1; }
+}
+.crt-flicker {
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes subtleFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+.animate-subtle-fade {
+    animation: subtleFadeIn 2s ease-in forwards;
+}
+
+/* Interactive Code Editor Mockup */
+.code-editor-card {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+    --tw-shadow-color: #f8f9fa;
+}
+
+@media (hover: hover) {
+    .code-editor-card:hover {
+        transform: scale(1.25);
+        box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+        z-index: 10;
+    }
+}
+
+.code-tab {
+    cursor: none !important;
+    transition: all 0.2s ease;
+    font-weight: 700;
+    border-bottom: 2px solid transparent;
+}
+
+.code-tab.active {
+    background-color: #070707 !important;
+    color: var(--fg-color) !important;
+    border-bottom-color: var(--orange-color) !important;
+}
+
+.code-tab:not(.active) span {
+    background-color: #4a4a4a !important; /* Dimmed status indicator dot */
+}
+
+/* Custom Scrollbar for Code Block */
+#editor-code-content::-webkit-scrollbar,
+.code-editor-card div::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#editor-code-content::-webkit-scrollbar-track,
+.code-editor-card div::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+#editor-code-content::-webkit-scrollbar-thumb,
+.code-editor-card div::-webkit-scrollbar-thumb {
+    background: #333333;
+}
+
+#editor-code-content::-webkit-scrollbar-thumb:hover,
+.code-editor-card div::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+}
+
+/* System Overview Color Swap Animation */
+.header-system-overview {
+    filter: drop-shadow(0 0 8px rgba(248, 249, 250, 0.2));
+}
+
+.system-text {
+    color: var(--fg-color);
+    -webkit-text-stroke: 1px transparent;
+    animation: system-swap 2s infinite ease-in-out;
+}
+
+.overview-text {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--fg-color);
+    animation: overview-swap 2s infinite ease-in-out;
+}
+
+@keyframes system-swap {
+    0%, 100% {
+        color: var(--fg-color);
+        -webkit-text-stroke: 1px transparent;
+    }
+    50% {
+        color: transparent;
+        -webkit-text-stroke: 1px var(--fg-color);
+    }
+}
+
+@keyframes overview-swap {
+    0%, 100% {
+        color: transparent;
+        -webkit-text-stroke: 1px var(--fg-color);
+    }
+    50% {
+        color: var(--fg-color);
+        -webkit-text-stroke: 1px transparent;
+    }
+}
+
+/* CRT TV Stat Card Styles */
+.tv-casing {
+    background-color: #1a1a1a; /* Very dark gray, almost black */
+    border: 2px solid #333;
+    border-right-color: #000;
+    border-bottom-color: #000;
+    border-left-color: #444;
+    padding: 6px;
+    cursor: none;
+    box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+}
+
+@media (hover: hover) {
+    .tv-casing.tilt-card:hover {
+        box-shadow: 6px 6px 0px 0px var(--theme-color);
+        transform: perspective(1000px) rotateX(0) rotateY(0) scale3d(1.25, 1.25, 1.25) !important;
+        z-index: 100;
+    }
+}
+
+.tv-inner-casing {
+    background-color: #222;
+    border: 1px solid #111;
+    border-top-color: #000;
+    border-left-color: #000;
+}
+
+.tv-screen-container {
+    padding: 8px;
+    background: #111;
+    border-right: 1px solid #111;
+}
+
+.tv-screen {
+    background: #050505;
+    border: 2px solid #111827;
+    border-bottom-color: #1f2937;
+    border-right-color: #1f2937;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+.tv-control-panel {
+    background: linear-gradient(90deg, #2a2a2a, #111);
+    border-left: 1px solid #000;
+}
+
+.tv-dial {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #444, #111);
+    border: 2px solid #111;
+    border-bottom-color: #000;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.8), inset 0 0 4px var(--theme-color, transparent);
+    position: relative;
+}
+
+.tv-dial::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    width: 2px;
+    height: 8px;
+    background: var(--theme-color, #222);
+    transform: translateX(-50%);
+    box-shadow: 0 0 2px var(--theme-color, transparent);
+}
+
+.tv-speaker-grill-line {
+    height: 2px;
+    background: #000;
+    border-bottom: 1px solid var(--theme-color, #333);
+    width: 100%;
+    opacity: 0.8;
+}
+
+.tv-button {
+    width: 24px;
+    height: 8px;
+    background: #222;
+    border: 1px solid #333;
+    border-top-color: var(--theme-color, #444);
+    border-bottom-color: #000;
+    border-right-color: #000;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.tv-led {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--tw-shadow-color);
+    box-shadow: 0 0 8px var(--tw-shadow-color);
+}
+
+/* Sidebar Active Nav Link */
+.nav-link {
+    padding: 0.5rem 1rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link.active-nav-link {
+    border-color: currentColor;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 4px 4px 0px 0px currentColor;
+    transform: translate(-2px, -2px);
+}
+
+a[href="#home"].active-nav-link { color: #f8f9fa; }
+a[href="#about"].active-nav-link { color: #ffb86c; }
+a[href="#projects"].active-nav-link { color: #90e0ef; }
+a[href="#research"].active-nav-link { color: #f4f482; }
+a[href="#experience"].active-nav-link { color: #ff90e8; }
+a[href="#education"].active-nav-link { color: #a3e635; }
+
+/* NES Controllers Grouping */
+.nes-controller-group {
+    position: absolute;
+    bottom: -10px; /* Overlap bottom bezel slightly */
+    left: 12px;
+    display: flex;
+    gap: 8px;
+    z-index: 40;
+}
+
+.nes-controller {
+    width: 36px;
+    height: 16px;
+    background: #d1d5db; /* Gray plastic */
+    border: 1px solid #4b5563;
+    border-bottom: 2px solid #111;
+    border-right: 2px solid #111;
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    position: relative;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.8);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) {
+    .nes-controller:hover {
+        transform: translateY(-4px) scale(1.25) !important;
+        z-index: 50;
+    }
+}
+
+/* The Wire plugging into the TV */
+.nes-controller::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 12px;
+    background: #111; /* Black cord */
+    z-index: -1;
+}
+
+/* Inner black screen area of the controller */
+.nes-controller-inner {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    background: #111;
+    border-radius: 1px;
+    z-index: 0;
+}
+
+/* D-Pad */
+.nes-dpad {
+    width: 6px;
+    height: 6px;
+    background: #333;
+    position: relative;
+    z-index: 1;
+}
+.nes-dpad::before, .nes-dpad::after {
+    content: '';
+    position: absolute;
+    background: #333;
+}
+.nes-dpad::before { width: 10px; height: 3px; top: 1.5px; left: -2px; }
+.nes-dpad::after { width: 3px; height: 10px; left: 1.5px; top: -2px; }
+
+/* Select/Start Buttons */
+.nes-select-start {
+    display: flex;
+    gap: 2px;
+    z-index: 1;
+}
+.nes-select-start > div {
+    width: 4px;
+    height: 2px;
+    background: #666;
+    border-radius: 1px;
+    transform: rotate(-25deg);
+}
+
+/* A/B Buttons */
+.nes-ab {
+    display: flex;
+    gap: 2px;
+    z-index: 1;
+}
+.nes-ab > div {
+    width: 4px;
+    height: 4px;
+    background: #ef4444; /* Classic red */
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 0px rgba(0,0,0,0.5);
+}
+
+/* Large Dangling Controller */
+.nes-large-controller {
+    width: 70px;
+    height: 32px;
+    background: #111; /* Black */
+    border: 2px solid var(--theme-color);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.5);
+    z-index: 60;
+    position: absolute;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (hover: hover) {
+    .nes-large-controller:hover {
+        transform: scale(1.25) rotate(5deg) !important;
+    }
+}
+
+.nes-large-dpad {
+    width: 10px;
+    height: 10px;
+    background: #333;
+    position: relative;
+}
+.nes-large-dpad::before, .nes-large-dpad::after {
+    content: '';
+    position: absolute;
+    background: #333;
+}
+.nes-large-dpad::before { width: 16px; height: 4px; top: 3px; left: -3px; }
+.nes-large-dpad::after { width: 4px; height: 16px; left: 3px; top: -3px; }
+
+.nes-large-select-start {
+    display: flex;
+    gap: 4px;
+}
+.nes-large-select-start > div {
+    width: 8px;
+    height: 3px;
+    background: #555;
+    border-radius: 1px;
+    transform: rotate(-25deg);
+}
+
+.nes-large-ab {
+    display: flex;
+    gap: 4px;
+}
+.nes-large-ab > div {
+    width: 8px;
+    height: 8px;
+    background: var(--theme-color);
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 2px rgba(0,0,0,0.5), 0 0 4px var(--theme-color);
+}
+
+/* Smooth Curved Wire */
+.dangling-wire {
+    position: absolute;
+    top: 100%; /* Start at bottom of TV casing */
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 50;
+    overflow: visible;
+}
+.dangling-wire path {
+    fill: none;
+    stroke: var(--theme-color); /* Color coded */
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+}
+
+/* Project Card Link Wrapper */
+.project-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: none;
+    /* Ensure the card scales in its own stacking context */
+    position: relative;
+    z-index: 1;
+    transition: z-index 0s;
+}
+
+.project-card-link:hover {
+    z-index: 10;
+}
+
+/* Scale-up 25% on hover */
+@media (hover: hover) {
+    .project-card-link:hover .project-card {
+        transform: scale(1.25);
+        /* Override the default neo-card hover translate since we're scaling instead */
+        box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+}
+
+/* Research Flipbook Styles */
+.perspective-container {
+    perspective: 1500px;
+}
+
+.flip-book {
+    background-color: transparent;
+    transition: transform 0.5s ease;
+    margin: 0 auto;
+}
+
+.flip-book .page {
+    background-color: transparent;
+    cursor: grab;
+    /* Basic drop shadow for pages as they turn */
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+
+.flip-book .page:active {
+    cursor: grabbing;
+}
+
+.flip-book .page-content {
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    background-color: #1a1a1a;
+}
+
+/* The overall container gets the neo-brutalist shadow */
+.stf__wrapper {
+    /* Removed box-shadow to allow the book to center properly when closed */
+}
+
+/* Hide scrollbar for flipbook pages but allow scrolling */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #ffb86c;
+}
+
+/* Arcade Machine & Dialogue Box Hover Transitions */
+.arcade-machine {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+}
+.dialogue-box {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+@media (hover: hover) {
+    .arcade-machine:hover {
+        transform: scale(1.25);
+        z-index: 10;
+    }
+    .dialogue-box:hover {
+        transform: scale(1.25);
+        z-index: 10;
+    }
+}@media (max-width: 767px) {
+    .nav-text {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        display: none !important;
+    }
+
+    #sidebar {
+        width: 100% !important;
+        height: 60px !important;
+        top: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        border-right: 0px !important;
+        border-top: 2px solid var(--border, #4a4a4a) !important;
+    }
+
+    .sidebar-inner {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        height: 100% !important;
+        width: 100% !important;
+        padding: 0 1rem !important;
+    }
+
+    .sidebar-inner > div {
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        gap: 0 !important;
+    }
+
+    .nav-link {
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+    }
+
+    #logo-container {
+        display: none !important;
+    }
+}
+/* Disable custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    #custom-cursor {
+        display: none !important;
+    }
+    body, a, button, .hoverable {
+        cursor: auto !important;
+    }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none !important;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}

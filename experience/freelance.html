@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Photo & Video Editor | Parth Sharma</title>
+    <meta name="description" content="Freelance Photo & Video Editor. Delivered professional grading, editing, and content assets for clients globally.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#111111',
+                        foreground: '#f8f9fa',
+                        pink: '#ff90e8',
+                        blue: '#90e0ef',
+                        yellow: '#f4f482',
+                        orange: '#ffb86c',
+                        green: '#a3e635',
+                        border: '#4a4a4a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { cursor: none !important; }
+        body { background: #111111; color: #f8f9fa; font-family: 'JetBrains Mono', monospace; }
+        #custom-cursor {
+            position: fixed; top: 0; left: 0;
+            width: 20px; height: 20px;
+            background: white; pointer-events: none;
+            mix-blend-mode: difference; z-index: 99999;
+            transition: transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out;
+            transform: translate(-50%, -50%);
+        }
+        body.cursor-hover #custom-cursor { width: 60px; height: 60px; border-radius: 50%; }
+        .dot-grid-bg {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .neo-box {
+            border: 2px solid #f8f9fa;
+            box-shadow: 6px 6px 0 0 #a3e635;
+        }
+        .neo-badge {
+            border: 1px solid #4a4a4a;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .section-line { border-top: 1px solid #4a4a4a; }
+        a.nav-back {
+            border: 2px solid #f8f9fa;
+            box-shadow: 4px 4px 0 0 #a3e635;
+            transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        a.nav-back:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 0 #a3e635;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .animate-blink { animation: blink 1s step-end infinite; }
+        .stat-card {
+            border: 2px solid #4a4a4a;
+            padding: 1.5rem;
+            background: #0a0a0a;
+        }
+        @media (hover: none) and (pointer: coarse) {
+            #custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body class="dot-grid-bg min-h-screen">
+    <div id="custom-cursor"></div>
+
+    <div class="max-w-5xl mx-auto px-6 py-16">
+
+        <!-- Back Nav -->
+        <div class="mb-16">
+            <a href="../index.html#experience" class="nav-back font-mono font-bold text-xs tracking-widest uppercase px-6 py-3 text-foreground no-underline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                BACK_TO_EXPERIENCE
+            </a>
+        </div>
+
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500">// SYS.EXP: 004</span>
+                <div class="flex-1 section-line"></div>
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-green">CREATIVE SERVICES</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black uppercase leading-none mb-6">
+                PHOTO &amp; VIDEO<br>
+                <span class="text-green">EDITOR</span><span class="animate-blink text-orange">_</span>
+            </h1>
+            <p class="font-mono text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl border-l-2 border-green pl-6">
+                Delivered post-production assets, including color-grading, typography overlays, and custom video templates for multi-platform campaigns.
+            </p>
+        </div>
+
+        <!-- Info Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">Independent</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Division</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">Freelance</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Model</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">Ongoing</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Period</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">Global</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Clients</div>
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div class="space-y-12">
+
+            <!-- Overview -->
+            <div class="neo-box p-8">
+                <div class="font-mono text-[10px] tracking-widest text-green uppercase mb-4">// OVERVIEW</div>
+                <p class="font-mono text-sm text-gray-300 leading-relaxed">
+                    Operated as an independent photo & video editor for diverse digital clients. Specialized in color correction, visual effects, storyboard flow, sound design overlays, and delivering multi-format production assets optimized for high engagement.
+                </p>
+            </div>
+
+            <!-- Responsibilities -->
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">// KEY_RESPONSIBILITIES</span>
+                    <div class="flex-1 section-line"></div>
+                </div>
+                <div class="stat-card">
+                    <ul class="font-mono text-sm text-gray-400 space-y-4">
+                        <li><span class="text-green">→</span> Edited professional photos, executing skin retouching, color adjustments, and backdrop styling.</li>
+                        <li><span class="text-green">→</span> Produced, cut, and graded high-resolution promotional video sequences.</li>
+                        <li><span class="text-green">→</span> Managed client revision workflows and formatted final creative deliveries.</li>
+                        <li><span class="text-green">→</span> Maintained strict asset organizational pipelines and met tight client project deadlines.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">// CREATIVE_SKILLSET</span>
+                    <div class="flex-1 section-line"></div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <span class="neo-badge text-green">Photo Editing</span>
+                    <span class="neo-badge text-green">Video Editing</span>
+                    <span class="neo-badge text-green">Adobe Tools</span>
+                    <span class="neo-badge text-green">Content Creation</span>
+                    <span class="neo-badge text-green">Client Communication</span>
+                    <span class="neo-badge text-gray-400">Premiere Pro</span>
+                    <span class="neo-badge text-gray-400">Photoshop</span>
+                    <span class="neo-badge text-gray-400">Lightroom</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+    </script>
+</body>
+</html>

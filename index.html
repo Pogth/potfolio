@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parth Sharma | AI/ML & Full-Stack Developer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;700;800&family=Syne:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#111111',
+                        foreground: '#f8f9fa',
+                        pink: '#ff90e8',
+                        blue: '#90e0ef',
+                        yellow: '#f4f482',
+                        orange: '#ffb86c',
+                        green: '#a3e635',
+                        border: '#4a4a4a'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Utilities -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .neo-container {
+                @apply mx-auto px-6 md:px-12 xl:px-24;
+            }
+            .neo-card {
+                @apply bg-background border-2 border-foreground rounded-none overflow-hidden relative cursor-none;
+                box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.2s ease;
+                z-index: 1;
+            }
+            @media (hover: hover) {
+                .neo-card:hover {
+                    transform: scale(1.25);
+                    box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+                    z-index: 10;
+                }
+            }
+            .neo-button {
+                @apply inline-flex items-center justify-center gap-2 font-mono font-bold py-3 px-8 border-2 border-foreground uppercase tracking-widest text-sm bg-background text-foreground cursor-none;
+                box-shadow: 6px 6px 0px 0px var(--tw-shadow-color);
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+                z-index: 1;
+            }
+            .neo-button:hover {
+                @apply bg-foreground text-background;
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+            }
+            @media (hover: hover) {
+                .neo-button:hover {
+                    transform: scale(1.25);
+                    box-shadow: 6px 6px 0px 0px rgba(255,255,255,0.8);
+                    z-index: 10;
+                }
+            }
+            .neo-badge {
+                @apply border border-border font-mono font-bold px-3 py-1 text-xs tracking-widest uppercase bg-background text-foreground;
+            }
+            
+            /* Custom shadow utilities to fix tailwind JIT issues */
+            .shadow-neo-orange { --tw-shadow-color: #ffb86c; }
+            .shadow-neo-pink { --tw-shadow-color: #ff90e8; }
+            .shadow-neo-blue { --tw-shadow-color: #90e0ef; }
+            .shadow-neo-yellow { --tw-shadow-color: #f4f482; }
+            .shadow-neo-green { --tw-shadow-color: #a3e635; }
+            .shadow-neo-white { --tw-shadow-color: #f8f9fa; }
+            
+            /* Scroll Reveal Classes (Snappy Native App Feel) */
+            .reveal {
+                @apply opacity-0 translate-y-6 blur-[2px] transition-all duration-300;
+                transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .reveal.active {
+                @apply opacity-100 translate-y-0 blur-none;
+            }
+            .delay-100 { transition-delay: 50ms; }
+            .delay-200 { transition-delay: 100ms; }
+            .delay-300 { transition-delay: 150ms; }
+            .delay-400 { transition-delay: 200ms; }
+        }
+    </style>
+
+    <!-- PageFlip Library for Research Flipbook -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+
+    <link rel="stylesheet" href="style.css?v=23">
+    <script src="script.js?v=23" defer></script>
+</head>
+
+<body class="font-sans dot-grid-bg selection:bg-orange selection:text-background h-screen overflow-hidden">
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+
+    <!-- Mac Terminal Boot Sequence Overlay -->
+    <div id="mac-boot-screen"
+        class="fixed inset-0 z-[100] bg-background dot-grid-bg flex flex-col justify-center items-center p-6 transition-opacity duration-500">
+
+        <!-- The Terminal Window -->
+        <div id="terminal-trigger"
+            class="w-full max-w-2xl rounded-xl overflow-hidden border-2 border-border shadow-neo-white bg-[#0a0a0a] relative hoverable group cursor-none crt-scanlines crt-flicker">
+
+            <!-- Terminal Header -->
+            <div id="terminal-header" class="flex items-center px-4 py-3 border-b-2 border-border bg-[#151515]"
+                style="cursor: grab;">
+                <div class="flex space-x-2 flex-shrink-0">
+                    <div class="w-3.5 h-3.5 rounded-full bg-[#ff5f56] border border-black/20"></div>
+                    <div class="w-3.5 h-3.5 rounded-full bg-[#ffbd2e] border border-black/20"></div>
+                    <div class="w-3.5 h-3.5 rounded-full bg-[#27c93f] border border-black/20"></div>
+                </div>
+                <div class="flex-1 text-center font-mono text-[10px] md:text-xs text-gray-500 select-none tracking-widest uppercase"
+                    id="boot-terminal-title">bash - guest@parth - 80x24</div>
+                <div class="w-12 flex-shrink-0"></div> <!-- Spacer to balance dots -->
+            </div>
+
+            <!-- Terminal Body -->
+            <div id="boot-terminal-body"
+                class="p-6 md:p-8 font-mono text-sm md:text-lg h-64 md:h-80 overflow-y-auto flex flex-col">
+                <p class="mb-2 text-foreground">
+                    <span class="text-pink font-bold">guest@parth</span>:<span class="text-blue font-bold">~</span>$
+                    <span id="boot-typewriter"></span><span class="animate-blink text-orange" id="boot-cursor">_</span>
+                </p>
+                <div id="boot-terminal-output" class="hidden flex-col gap-2 mt-2"></div>
+            </div>
+
+            <!-- Editor View (Shown during transition) -->
+            <div id="boot-editor-view" class="hidden flex-col flex-grow text-left">
+                <!-- IDE Tabs -->
+                <div
+                    class="flex border-b border-border bg-[#0f0f0f] text-[10px] md:text-xs text-gray-500 overflow-x-auto select-none">
+                    <div
+                        class="flex items-center gap-1.5 px-4 py-2 border-r border-border bg-[#0a0a0a] text-orange active">
+                        <span class="w-2 h-2 rounded-full bg-orange"></span>
+                        parth.ts
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 px-4 py-2 border-r border-border hover:bg-[#151515] hover:text-foreground">
+                        <span class="w-2 h-2 rounded-full bg-pink"></span>
+                        skills.md
+                    </div>
+                    <div
+                        class="flex items-center gap-1.5 px-4 py-2 border-r border-border hover:bg-[#151515] hover:text-foreground">
+                        <span class="w-2 h-2 rounded-full bg-blue"></span>
+                        research.md
+                    </div>
+                </div>
+
+                <!-- IDE Code Body -->
+                <div
+                    class="p-4 md:p-6 text-xs md:text-sm h-60 overflow-y-auto flex bg-[#070707] relative leading-relaxed">
+                    <div
+                        class="flex flex-col text-gray-600 select-none text-right pr-4 border-r border-border/30 mr-4 font-mono w-6">
+                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+                    </div>
+                    <pre class="flex-grow overflow-x-auto whitespace-pre font-mono text-gray-300"><code class="language-typescript"><span class="text-pink">export</span> <span class="text-pink">const</span> <span class="text-blue">developer</span> = {
+    name: <span class="text-green">"Parth Sharma"</span>,
+    role: <span class="text-green">"AI/ML & Full-Stack Developer"</span>,
+    focus: [<span class="text-orange">"deep_learning"</span>, <span class="text-orange">"fullstack"</span>],
+    available: <span class="text-blue">true</span>
+};</code></pre>
+                </div>
+
+                <!-- IDE Specialties Sub-Panels -->
+                <div
+                    class="grid grid-cols-3 border-t-2 border-border text-center bg-[#0a0a0a] divide-x border-collapse overflow-hidden">
+                    <div class="p-3 md:p-4">
+                        <div class="text-[10px] tracking-widest text-pink font-bold uppercase mb-1">AI/ML</div>
+                        <div class="text-[10px] md:text-xs text-gray-400 font-mono">PyTorch + TF</div>
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <div class="text-[10px] tracking-widest text-blue font-bold uppercase mb-1">Dev</div>
+                        <div class="text-[10px] md:text-xs text-gray-400 font-mono">React + Node</div>
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <div class="text-[10px] tracking-widest text-green font-bold uppercase mb-1">Ops</div>
+                        <div class="text-[10px] md:text-xs text-gray-400 font-mono">Docker + REST</div>
+                    </div>
+                </div>
+
+                <!-- IDE Status List -->
+                <div
+                    class="p-4 border-t border-border bg-[#0c0c0c] flex flex-col gap-2 font-mono text-[10px] md:text-xs text-gray-400 select-none">
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                        <span>Clinically reliable deep learning models</span>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                        <span>Feature fusion architectures for AI diagnostics</span>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                        <span>Scalable, real-time deterministic web systems</span>
+                    </div>
+                </div>
+
+                <!-- IDE Footer / Statusbar -->
+                <div
+                    class="flex items-center justify-between px-4 py-2 border-t-2 border-border bg-[#151515] select-none text-[9px] md:text-[10px] text-gray-500">
+                    <div class="flex items-center gap-1.5">
+                        <span class="inline-block w-2 h-2 rounded-full bg-green animate-pulse"></span>
+                        <span class="tracking-wider uppercase text-gray-400">TypeScript</span>
+                    </div>
+                    <div class="text-orange tracking-widest uppercase flex items-center gap-1">
+                        VIEW_PROFILE
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Draggable Hint -->
+        <div
+            class="absolute bottom-6 right-6 md:bottom-12 md:right-12 font-['Caveat'] text-xl md:text-3xl text-gray-300 lowercase opacity-0 animate-subtle-fade text-right select-none pointer-events-none">
+            (increase audio for best effects)
+        </div>
+    </div>
+
+    <!-- Collapse Button -->
+    <button id="sidebar-collapse-btn"
+        class="hidden md:flex fixed top-6 w-8 h-8 items-center justify-center bg-background border-2 border-border text-foreground hover:border-orange hover:text-orange transition-colors duration-200 rounded-full z-[61] cursor-none shadow-neo-white collapse-btn-pos opacity-0 transition-opacity">
+        <svg id="sidebar-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="transition-transform duration-300">
+            <path d="M15 18l-6-6 6-6" />
+        </svg>
+    </button>
+
+    <!-- Sidebar Navigation (Desktop) / Collapsed Navigation (Mobile) -->
+    <nav id="sidebar"
+        class="fixed top-0 left-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-500 flex flex-col justify-between desktop-sidebar opacity-0">
+
+        <!-- Resize Handle Removed -->
+
+        <div
+            class="p-6 sidebar-inner flex flex-col justify-between items-center md:items-start w-full h-full transition-all duration-300">
+            <a href="#home" id="logo-container"
+                class="flex items-center text-5xl font-mono font-black tracking-tighter hoverable transition-colors duration-1000 text-orange">
+                <span id="logo-text"></span><span class="animate-blink">_</span>
+            </a>
+
+            <div
+                class="flex flex-col gap-6 md:gap-10 font-mono font-bold text-base tracking-widest uppercase flex-1 justify-center w-full">
+                <a href="#home"
+                    class="nav-link flex items-center gap-5 hover:text-white transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">Home</span>
+                </a>
+                <a href="#about"
+                    class="nav-link flex items-center gap-5 hover:text-orange transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">About</span>
+                </a>
+                <a href="#projects"
+                    class="nav-link flex items-center gap-5 hover:text-blue transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">Projects</span>
+                </a>
+                <a href="#research"
+                    class="nav-link flex items-center gap-5 hover:text-yellow transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M10 2v7.31" />
+                        <path d="M14 9.3V1.99" />
+                        <path d="M8.5 2h7" />
+                        <path d="M14 9.3a6.5 6.5 0 1 1-4 0" />
+                        <line x1="5.52" y1="16" x2="18.48" y2="16" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">Research</span>
+                </a>
+                <a href="#experience"
+                    class="nav-link flex items-center gap-5 hover:text-pink transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">Experience</span>
+                </a>
+                <a href="#education"
+                    class="nav-link flex items-center gap-5 hover:text-green transition-colors hoverable group">
+                    <svg class="w-7 h-7 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                    </svg>
+                    <span class="nav-text whitespace-nowrap">Education</span>
+                </a>
+            </div>
+
+
+        </div>
+    </nav>
+
+    <!-- Main Portfolio (Hidden until boot completes) -->
+    <div id="horizontal-scroll-wrapper" class="opacity-0 transition-opacity duration-1000 horizontal-scroll-wrapper">
+        <!-- Spacer to offset the fixed sidebar on Desktop -->
+        <div class="hidden md:block flex-shrink-0 h-full desktop-spacer"></div>
+
+        <!-- Hero Section -->
+        <section id="home" class="horizontal-section neo-container flex flex-col justify-center relative">
+            <div class="grid lg:grid-cols-12 gap-12 items-center w-full my-auto pb-16 min-w-0">
+                <!-- Left Column: Hero Text -->
+                <div class="lg:col-span-7 flex flex-col justify-center min-w-0">
+
+                    <!-- Arcade and Dialogue Box -->
+                    <div class="flex items-center gap-6 mb-6 reveal">
+                        <!-- Arcade Machine (Minimalist white outline) -->
+                        <div
+                            class="relative w-16 md:w-20 h-28 md:h-32 hoverable arcade-machine group cursor-none flex-shrink-0">
+                            <svg viewBox="0 0 80 120" class="w-full h-full" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f8f9fa;">
+                                <!-- Main Cabinet Body -->
+                                <path d="M 12,22 L 28,2 L 52,2 L 68,22 L 68,58 L 58,64 L 58,118 L 12,118 Z" />
+
+                                <!-- Marquee Panel -->
+                                <line x1="12" y1="22" x2="68" y2="22" stroke-width="1.5" opacity="0.5" />
+                                <text x="40" y="14" font-family="monospace" font-size="6" font-weight="bold"
+                                    fill="currentColor" text-anchor="middle" stroke="none" opacity="0.8">PARTH_</text>
+
+                                <!-- Screen Bezel -->
+                                <rect x="20" y="26" width="40" height="28" rx="1" stroke-width="1.5" />
+                                <!-- Screen inner -->
+                                <rect x="23" y="29" width="34" height="22" rx="0" fill="rgba(248,249,250,0.04)"
+                                    stroke-width="1" opacity="0.6" />
+                                <!-- Screen glow dots (subtle) -->
+                                <circle cx="32" cy="38" r="1.5" fill="currentColor" class="animate-pulse" stroke="none"
+                                    opacity="0.7" />
+                                <circle cx="40" cy="35" r="1" fill="currentColor" class="animate-pulse" stroke="none"
+                                    opacity="0.5" style="animation-delay:0.3s" />
+                                <circle cx="48" cy="40" r="1.5" fill="currentColor" class="animate-[ping_2s_infinite]"
+                                    stroke="none" opacity="0.4" />
+
+                                <!-- Control Deck -->
+                                <path d="M 14,58 L 68,58 L 68,64 L 14,64 Z" stroke-width="1.5" />
+                                <!-- Joystick -->
+                                <line x1="30" y1="58" x2="30" y2="50" stroke-width="2" />
+                                <circle cx="30" cy="49" r="3" fill="rgba(248,249,250,0.1)" stroke-width="1.5"
+                                    class="group-hover:animate-bounce" />
+                                <!-- Action Buttons -->
+                                <circle cx="46" cy="59" r="2" fill="rgba(248,249,250,0.15)" stroke-width="1.5" />
+                                <circle cx="52" cy="57" r="2" fill="rgba(248,249,250,0.15)" stroke-width="1.5" />
+                                <circle cx="58" cy="59" r="2" fill="rgba(248,249,250,0.15)" stroke-width="1.5" />
+
+                                <!-- Cabinet Lower Body -->
+                                <line x1="12" y1="64" x2="12" y2="118" stroke-width="1.5" />
+                                <line x1="58" y1="64" x2="58" y2="118" stroke-width="1.5" />
+                                <!-- Coin slot -->
+                                <rect x="32" y="80" width="14" height="4" rx="2" fill="rgba(248,249,250,0.1)"
+                                    stroke-width="1" />
+                                <!-- Speaker grill lines -->
+                                <line x1="20" y1="95" x2="50" y2="95" stroke-width="1" opacity="0.3" />
+                                <line x1="20" y1="99" x2="50" y2="99" stroke-width="1" opacity="0.3" />
+                                <line x1="20" y1="103" x2="50" y2="103" stroke-width="1" opacity="0.3" />
+                                <!-- Base feet -->
+                                <line x1="14" y1="118" x2="8" y2="118" stroke-width="2" />
+                                <line x1="56" y1="118" x2="62" y2="118" stroke-width="2" />
+                            </svg>
+                        </div>
+
+                        <!-- Dialogue Box -->
+                        <div
+                            class="relative bg-background border-2 border-foreground p-4 md:p-5 shadow-neo-pink hoverable dialogue-box cursor-none crt-scanlines">
+                            <!-- Tail pointing left -->
+                            <div
+                                class="absolute top-1/2 -left-[10px] w-0 h-0 border-y-[8px] border-y-transparent border-r-[10px] border-r-foreground transform -translate-y-1/2">
+                            </div>
+                            <div
+                                class="absolute top-1/2 -left-[7px] w-0 h-0 border-y-[6px] border-y-transparent border-r-[8px] border-r-background transform -translate-y-1/2 z-10">
+                            </div>
+
+                            <p
+                                class="font-mono text-sm md:text-base text-foreground font-bold tracking-widest uppercase relative z-20">
+                                <span class="text-pink">Hi</span>, welcome to my <span
+                                    class="text-blue">portfolio</span><span class="animate-blink text-orange">_</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p
+                        class="text-base md:text-lg font-mono max-w-2xl leading-relaxed mb-10 text-gray-400 reveal delay-100 border-l-2 border-orange pl-6">
+                        I am Parth Sharma, an AI/ML Engineer and Full-Stack Developer specializing in designing
+                        clinically reliable deep learning models and building high-performance web applications. I focus
+                        on bridging the gap between intelligent algorithms and production-ready software.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-6 reveal delay-200">
+                        <a href="https://github.com/Pogth" target="_blank"
+                            class="neo-button hoverable shadow-neo-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mr-2">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg>
+                            GITHUB
+                        </a>
+                        <a href="https://www.linkedin.com/in/pogth/" target="_blank"
+                            class="neo-button hoverable !border-blue !text-blue hover:!bg-blue hover:!text-background shadow-neo-blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mr-2">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                </path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                            LINKEDIN
+                        </a>
+                        <a href="mailto:parthsharmaro2@gmail.com"
+                            class="neo-button hoverable !border-orange !text-orange hover:!bg-orange hover:!text-background shadow-neo-orange">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mr-2">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                            EMAIL
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Code Editor -->
+                <div class="lg:col-span-5 w-full flex justify-center reveal delay-300 min-w-0">
+                    <div id="code-editor-trigger"
+                        class="w-full max-w-lg code-editor-card rounded-none border-2 border-border shadow-neo-white bg-[#0a0a0a] relative hoverable group crt-scanlines overflow-hidden flex flex-col font-mono">
+                        <!-- IDE Header / Titlebar -->
+                        <div class="flex items-center px-4 py-3 border-b-2 border-border bg-[#151515] select-none">
+                            <div class="flex space-x-2 flex-shrink-0">
+                                <div class="w-3 h-3 rounded-full bg-[#ff5f56] border border-black/20"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#ffbd2e] border border-black/20"></div>
+                                <div class="w-3 h-3 rounded-full bg-[#27c93f] border border-black/20"></div>
+                            </div>
+                            <!-- Active File Name Center -->
+                            <div class="flex-1 text-center font-mono text-[10px] md:text-xs text-gray-500 tracking-widest uppercase"
+                                id="editor-active-file-title">parth.ts</div>
+                            <div class="w-8"></div>
+                        </div>
+
+                        <!-- IDE Tabs -->
+                        <div
+                            class="flex border-b border-border bg-[#0f0f0f] text-[10px] md:text-xs text-gray-500 overflow-x-auto select-none">
+                            <button
+                                class="code-tab flex items-center gap-1.5 px-4 py-2 border-r border-border bg-[#0a0a0a] text-orange active"
+                                data-file="parth.ts">
+                                <span class="w-2 h-2 rounded-full bg-orange"></span>
+                                parth.ts
+                            </button>
+                            <button
+                                class="code-tab flex items-center gap-1.5 px-4 py-2 border-r border-border hover:bg-[#151515] hover:text-foreground"
+                                data-file="skills.md">
+                                <span class="w-2 h-2 rounded-full bg-pink"></span>
+                                skills.md
+                            </button>
+                            <button
+                                class="code-tab flex items-center gap-1.5 px-4 py-2 border-r border-border hover:bg-[#151515] hover:text-foreground"
+                                data-file="research.md">
+                                <span class="w-2 h-2 rounded-full bg-blue"></span>
+                                research.md
+                            </button>
+                        </div>
+
+                        <!-- IDE Code Body -->
+                        <div
+                            class="p-4 md:p-6 text-xs md:text-sm h-60 overflow-y-auto flex bg-[#070707] relative leading-relaxed">
+                            <!-- Line Numbers -->
+                            <div class="flex flex-col text-gray-600 select-none text-right pr-4 border-r border-border/30 mr-4 font-mono w-6"
+                                id="editor-line-numbers">
+                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+                            </div>
+                            <!-- Actual Highlighted Code Container -->
+                            <pre class="flex-1 overflow-x-auto whitespace-pre font-mono text-gray-300"
+                                id="editor-code-content"><code class="language-typescript"><span class="text-pink">export</span> <span class="text-pink">const</span> <span class="text-blue">developer</span> = {
+    name: <span class="text-green">"Parth Sharma"</span>,
+    role: <span class="text-green">"AI/ML & Full-Stack Developer"</span>,
+    focus: [<span class="text-orange">"deep_learning"</span>, <span class="text-orange">"fullstack"</span>],
+    available: <span class="text-blue">true</span>
+};</code></pre>
+                        </div>
+
+                        <!-- IDE Specialties Sub-Panels (AI/ML, DEV, OPS) -->
+                        <div
+                            class="grid grid-cols-3 border-t-2 border-border text-center bg-[#0a0a0a] divide-x border-collapse overflow-hidden">
+                            <div class="p-3 md:p-4 hover:bg-[#121212] transition-colors">
+                                <div class="text-[10px] tracking-widest text-pink font-bold uppercase mb-1">AI/ML</div>
+                                <div class="text-[10px] md:text-xs text-gray-400 font-mono">PyTorch + TF</div>
+                            </div>
+                            <div class="p-3 md:p-4 hover:bg-[#121212] transition-colors">
+                                <div class="text-[10px] tracking-widest text-blue font-bold uppercase mb-1">Dev</div>
+                                <div class="text-[10px] md:text-xs text-gray-400 font-mono">React + Node</div>
+                            </div>
+                            <div class="p-3 md:p-4 hover:bg-[#121212] transition-colors">
+                                <div class="text-[10px] tracking-widest text-green font-bold uppercase mb-1">Ops</div>
+                                <div class="text-[10px] md:text-xs text-gray-400 font-mono">Docker + REST</div>
+                            </div>
+                        </div>
+
+                        <!-- IDE Status List -->
+                        <div
+                            class="p-4 border-t border-border bg-[#0c0c0c] flex flex-col gap-2 font-mono text-[10px] md:text-xs text-gray-400 select-none">
+                            <div class="flex items-start gap-2.5">
+                                <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                                <span>Clinically reliable deep learning models</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                                <span>Feature fusion architectures for AI diagnostics</span>
+                            </div>
+                            <div class="flex items-start gap-2.5">
+                                <span class="text-green flex-shrink-0 font-bold">&#10003;</span>
+                                <span>Scalable, real-time deterministic web systems</span>
+                            </div>
+                        </div>
+
+                        <!-- IDE Footer / Statusbar -->
+                        <div
+                            class="flex items-center justify-between px-4 py-2 border-t-2 border-border bg-[#151515] select-none text-[9px] md:text-[10px] text-gray-500">
+                            <div class="flex items-center gap-1.5">
+                                <span class="inline-block w-2 h-2 rounded-full bg-green animate-pulse"></span>
+                                <span class="tracking-wider uppercase text-gray-400">TypeScript</span>
+                            </div>
+                            <a href="#about"
+                                class="text-orange hover:text-white transition-colors tracking-widest uppercase hoverable flex items-center gap-1">
+                                VIEW_PROFILE
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marquee Skills Section -->
+            <div
+                class="absolute bottom-0 left-0 w-full flex items-center border-t-2 border-border marquee-wrapper reveal delay-400">
+                <div class="marquee-content">
+                    <!-- Double content for infinite loop -->
+                    <div class="flex">
+                        <span class="marquee-item hoverable">Python</span>
+                        <span class="marquee-item hoverable animate-glitch-fast text-pink">ReactJS</span>
+                        <span class="marquee-item hoverable">PyTorch</span>
+                        <span class="marquee-item hoverable text-orange">NodeJS</span>
+                        <span class="marquee-item hoverable">OpenCV</span>
+                        <span class="marquee-item hoverable animate-glitch text-blue">Tailwind</span>
+                        <span class="marquee-item hoverable">TensorFlow</span>
+                        <span class="marquee-item hoverable text-green">MongoDB</span>
+
+                        <span class="marquee-item hoverable">Python</span>
+                        <span class="marquee-item hoverable animate-glitch-fast text-pink">ReactJS</span>
+                        <span class="marquee-item hoverable">PyTorch</span>
+                        <span class="marquee-item hoverable text-orange">NodeJS</span>
+                        <span class="marquee-item hoverable">OpenCV</span>
+                        <span class="marquee-item hoverable animate-glitch text-blue">Tailwind</span>
+                        <span class="marquee-item hoverable">TensorFlow</span>
+                        <span class="marquee-item hoverable text-green">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About & Stats Section -->
+        <section id="about"
+            class="horizontal-section neo-container flex flex-col justify-center border-l-2 border-border">
+            <div class="flex items-center gap-4 mb-12 reveal">
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-mono">
+                    // SECTION: ABOUT_ME
+                </span>
+                <div class="flex-1 border-t border-border"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center min-w-0">
+                <div class="reveal min-w-0">
+                    <h2
+                        class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black mb-8 uppercase header-system-overview tracking-tighter">
+                        <span class="system-text">SYSTEM</span> <br />
+                        <span class="overview-text">OVERVIEW.</span>
+                    </h2>
+                    <div
+                        class="font-mono text-gray-400 leading-relaxed text-sm md:text-base border-l-2 border-foreground pl-6 space-y-6">
+                        <p>
+                            I am an <span class="text-pink font-bold">AI/ML</span>-focused IT student with a strong
+                            foundation in building and deploying
+                            clinically reliable <span class="text-blue font-bold">deep learning systems</span> alongside
+                            scalable <span class="text-orange font-bold">full-stack web applications</span>.
+                        </p>
+                        <p>
+                            My passion lies at the intersection of <span class="text-green font-bold">complex data
+                                modeling</span> and <span class="text-yellow font-bold">intuitive user
+                                experiences</span>.
+                            Whether it's crafting a responsive frontend or fine-tuning a neural network for medical
+imaging, I strive for efficiency, accuracy, and impact.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex overflow-x-auto pb-4 gap-6 scroll-smooth snap-x snap-mandatory md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:gap-6 min-w-0 scrollbar-hide reveal delay-200">
+                    <!-- Stat Card 1: Projects -->
+                    <div class="tv-casing tilt-card hoverable shadow-neo-blue group relative aspect-[4/3] flex-shrink-0 w-[78vw] max-w-[280px] snap-center md:w-auto md:max-w-none min-w-0"
+                        style="--theme-color: #90e0ef;">
+                        <a href="#projects" class="absolute inset-0 z-30 cursor-none" aria-label="Go to Projects"></a>
+                        <div class="tv-inner-casing flex h-full w-full relative">
+                            <!-- Screen -->
+                            <div class="tv-screen-container relative flex-grow flex">
+                                <div
+                                    class="tv-screen relative h-full w-full overflow-hidden p-4 md:p-6 flex flex-col justify-center items-center">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-bl from-blue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute top-3 right-3 text-blue/50 group-hover:text-blue transition-colors z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="4 17 10 11 4 5" />
+                                            <line x1="12" x2="20" y1="19" y2="19" />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="absolute bottom-3 left-3 font-mono text-[9px] text-blue/50 tracking-widest group-hover:animate-pulse z-10">
+                                        SYS.PRJ</div>
+
+                                    <div class="text-5xl md:text-6xl font-black text-blue counter group-hover:animate-glitch relative z-10"
+                                        data-target="4">0</div>
+                                    <div
+                                        class="font-mono text-[10px] md:text-xs tracking-widest mt-2 md:mt-4 text-gray-500 relative z-10 text-center">
+                                        // PROJECTS</div>
+                                    <div class="absolute inset-0 crt-scanlines pointer-events-none z-20"></div>
+                                </div>
+                            </div>
+                            <!-- Control Panel -->
+                            <div
+                                class="tv-control-panel w-12 md:w-16 flex-shrink-0 flex flex-col justify-between items-center py-4">
+                                <div class="flex flex-col gap-3 w-full items-center">
+                                    <div class="tv-dial"></div>
+                                    <div class="tv-dial"></div>
+                                </div>
+                                <div class="flex flex-col gap-1 w-full px-2">
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                </div>
+                                <div class="flex flex-col gap-2 w-full items-center">
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-led bg-blue group-hover:animate-pulse shadow-neo-blue"
+                                        style="--tw-shadow-color: #90e0ef;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Large Dangling Controller & Wire -->
+                            <svg class="dangling-wire hidden lg:block" style="height: 1px;">
+                                <path d="M 40,0 C -60,100 -80,360 120,320" />
+                            </svg>
+                            <div class="nes-large-controller rotate-[5deg] hidden lg:flex"
+                                style="top: calc(100% + 310px); left: 120px;">
+                                <div class="nes-large-dpad"></div>
+                                <div class="nes-large-select-start">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="nes-large-ab">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat Card 2: Research -->
+                    <div class="tv-casing tilt-card hoverable shadow-neo-yellow transform lg:translate-y-8 group relative aspect-[4/3] flex-shrink-0 w-[78vw] max-w-[280px] snap-center md:w-auto md:max-w-none min-w-0"
+                        style="--theme-color: #f4f482;">
+                        <a href="#research" class="absolute inset-0 z-30 cursor-none" aria-label="Go to Research"></a>
+                        <div class="tv-inner-casing flex h-full w-full relative">
+                            <!-- Screen -->
+                            <div class="tv-screen-container relative flex-grow flex">
+                                <div
+                                    class="tv-screen relative h-full w-full overflow-hidden p-4 md:p-6 flex flex-col justify-center items-center">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-tr from-yellow/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-3 left-3 text-yellow/50 group-hover:text-yellow transition-colors z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 right-3 font-mono text-[9px] text-yellow/50 tracking-widest group-hover:animate-pulse z-10">
+                                        SYS.PUB</div>
+
+                                    <div class="text-5xl md:text-6xl font-black text-yellow counter group-hover:animate-glitch relative z-10"
+                                        data-target="1">0</div>
+                                    <div
+                                        class="font-mono text-[10px] md:text-xs tracking-widest mt-2 md:mt-4 text-gray-500 relative z-10 text-center">
+                                        // IEEE_PUB</div>
+                                    <div class="absolute inset-0 crt-scanlines pointer-events-none z-20"></div>
+                                </div>
+                            </div>
+                            <!-- Control Panel -->
+                            <div
+                                class="tv-control-panel w-12 md:w-16 flex-shrink-0 flex flex-col justify-between items-center py-4">
+                                <div class="flex flex-col gap-3 w-full items-center">
+                                    <div class="tv-dial"></div>
+                                    <div class="tv-dial"></div>
+                                </div>
+                                <div class="flex flex-col gap-1 w-full px-2">
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                </div>
+                                <div class="flex flex-col gap-2 w-full items-center">
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-led bg-yellow group-hover:animate-pulse shadow-neo-yellow"
+                                        style="--tw-shadow-color: #f4f482;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Large Dangling Controller & Wire -->
+                            <svg class="dangling-wire hidden lg:block" style="height: 1px;">
+                                <path d="M 90,0 C 180,100 180,360 140,320" />
+                            </svg>
+                            <div class="nes-large-controller rotate-[4deg] hidden lg:flex"
+                                style="top: calc(100% + 310px); left: 140px;">
+                                <div class="nes-large-dpad"></div>
+                                <div class="nes-large-select-start">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="nes-large-ab">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat Card 3: Internship -->
+                    <div class="tv-casing tilt-card hoverable shadow-neo-pink group relative aspect-[4/3] flex-shrink-0 w-[78vw] max-w-[280px] snap-center md:w-auto md:max-w-none min-w-0"
+                        style="--theme-color: #ff90e8;">
+                        <a href="#experience" class="absolute inset-0 z-30 cursor-none"
+                            aria-label="Go to Experience"></a>
+                        <div class="tv-inner-casing flex h-full w-full relative">
+                            <!-- Screen -->
+                            <div class="tv-screen-container relative flex-grow flex">
+                                <div
+                                    class="tv-screen relative h-full w-full overflow-hidden p-4 md:p-6 flex flex-col justify-center items-center">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-pink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 text-pink/50 group-hover:text-pink transition-colors z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="absolute bottom-3 right-3 font-mono text-[9px] text-pink/50 tracking-widest group-hover:animate-pulse z-10">
+                                        SYS.INT</div>
+
+                                    <div class="text-5xl md:text-6xl font-black text-pink counter group-hover:animate-glitch relative z-10"
+                                        data-target="2">0</div>
+                                    <div
+                                        class="font-mono text-[10px] md:text-xs tracking-widest mt-2 md:mt-4 text-gray-500 relative z-10 text-center">
+                                        // INTERNSHIPS</div>
+                                    <div class="absolute inset-0 crt-scanlines pointer-events-none z-20"></div>
+                                </div>
+                            </div>
+                            <!-- Control Panel -->
+                            <div
+                                class="tv-control-panel w-12 md:w-16 flex-shrink-0 flex flex-col justify-between items-center py-4">
+                                <div class="flex flex-col gap-3 w-full items-center">
+                                    <div class="tv-dial"></div>
+                                    <div class="tv-dial"></div>
+                                </div>
+                                <div class="flex flex-col gap-1 w-full px-2">
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                </div>
+                                <div class="flex flex-col gap-2 w-full items-center">
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-led bg-pink group-hover:animate-pulse shadow-neo-pink"
+                                        style="--tw-shadow-color: #ff90e8;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Large Dangling Controller & Wire -->
+                            <svg class="dangling-wire hidden lg:block" style="height: 1px;">
+                                <path d="M 40,0 C 40,40 20,80 20,55" />
+                            </svg>
+                            <div class="nes-large-controller rotate-[1deg] hidden lg:flex" style="top: calc(100% + 55px); left: 20px;">
+                                <div class="nes-large-dpad"></div>
+                                <div class="nes-large-select-start">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="nes-large-ab">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Stat Card 4: CGPA -->
+                    <div class="tv-casing tilt-card hoverable shadow-neo-green transform lg:translate-y-8 group relative aspect-[4/3] flex-shrink-0 w-[78vw] max-w-[280px] snap-center md:w-auto md:max-w-none min-w-0"
+                        style="--theme-color: #a3e635;">
+                        <a href="#education" class="absolute inset-0 z-30 cursor-none" aria-label="Go to Education"></a>
+                        <div class="tv-inner-casing flex h-full w-full relative">
+                            <!-- Screen -->
+                            <div class="tv-screen-container relative flex-grow flex">
+                                <div
+                                    class="tv-screen relative h-full w-full overflow-hidden p-4 md:p-6 flex flex-col justify-center items-center">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-tl from-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-3 right-3 text-green/50 group-hover:text-green transition-colors z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <circle cx="12" cy="12" r="6" />
+                                            <circle cx="12" cy="12" r="2" />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="absolute top-3 left-3 font-mono text-[9px] text-green/50 tracking-widest group-hover:animate-pulse z-10">
+                                        SYS.GPA</div>
+
+                                    <div class="text-5xl md:text-6xl font-black text-green counter group-hover:animate-glitch relative z-10"
+                                        data-target="7.5" data-decimal="true">0.0</div>
+                                    <div
+                                        class="font-mono text-[10px] md:text-xs tracking-widest mt-2 md:mt-4 text-gray-500 relative z-10 text-center">
+                                        // CGPA</div>
+                                    <div class="absolute inset-0 crt-scanlines pointer-events-none z-20"></div>
+                                </div>
+                            </div>
+                            <!-- Control Panel -->
+                            <div
+                                class="tv-control-panel w-12 md:w-16 flex-shrink-0 flex flex-col justify-between items-center py-4">
+                                <div class="flex flex-col gap-3 w-full items-center">
+                                    <div class="tv-dial"></div>
+                                    <div class="tv-dial"></div>
+                                </div>
+                                <div class="flex flex-col gap-1 w-full px-2">
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                    <div class="tv-speaker-grill-line"></div>
+                                </div>
+                                <div class="flex flex-col gap-2 w-full items-center">
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-button"></div>
+                                    <div class="tv-led bg-green group-hover:animate-pulse shadow-neo-green"
+                                        style="--tw-shadow-color: #a3e635;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Large Dangling Controller & Wire -->
+                            <svg class="dangling-wire hidden lg:block" style="height: 1px;">
+                                <path d="M 40,0 C 40,30 15,65 15,45" />
+                            </svg>
+                            <div class="nes-large-controller rotate-[-3deg] hidden lg:flex"
+                                style="top: calc(100% + 45px); left: 15px;">
+                                <div class="nes-large-dpad"></div>
+                                <div class="nes-large-select-start">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                                <div class="nes-large-ab">
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects"
+            class="horizontal-section neo-container flex flex-col justify-center border-l-2 border-border">
+            <div class="flex items-center gap-4 mb-8 reveal">
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-mono">
+                    // SECTION: CORE_SYSTEMS
+                </span>
+                <div class="flex-1 border-t border-border"></div>
+            </div>
+
+            <div class="reveal mb-12">
+                <h2
+                    class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter hover:animate-glitch transition-all hoverable cursor-none header-system-overview sm:whitespace-nowrap">
+                    <span class="system-text">CORE</span> <span class="overview-text">PROJECTS.</span>
+                </h2>
+            </div>
+
+            <div class="flex overflow-x-auto pb-6 gap-6 scroll-smooth snap-x snap-mandatory md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:gap-8 min-w-0 scrollbar-hide reveal delay-100" style="perspective: 1200px;">
+                <!-- Project 1 -->
+                <a href="projects/skin-disease.html" class="project-card-link flex-shrink-0 w-[82vw] max-w-[320px] snap-center md:w-auto md:max-w-none min-w-0">
+                    <div
+                        class="neo-card project-card hoverable shadow-neo-pink p-8 reveal flex flex-col h-full group hover:bg-[#1a0b10] transition-colors">
+                        <div class="flex justify-between items-start mb-6 border-b-2 border-border pb-4">
+                            <div class="font-mono text-[10px] tracking-widest text-pink">SYS.ID // 001</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-pink group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-black mb-4 uppercase leading-none group-hover:animate-glitch-fast">Skin
+                            Disease Classification</h3>
+                        <p class="font-mono text-sm text-gray-400 mb-6 line-clamp-3">Trained a 7-class skin lesion
+                            classifier on the HAM10000 dataset using transfer learning. Deployed for real-time inference
+                            via
+                            REST APIs.</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="neo-badge hoverable">ResNet50</span>
+                            <span class="neo-badge hoverable">PyTorch</span>
+                            <span class="neo-badge hoverable">React</span>
+                            <span class="neo-badge hoverable">Node.js</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                            <span class="font-mono text-[10px] text-pink tracking-widest uppercase">VIEW_PROJECT</span>
+                            <span
+                                class="font-mono text-pink text-sm group-hover:translate-x-1 transition-transform duration-200 inline-block">&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 2 -->
+                <a href="projects/diabetic-foot.html" class="project-card-link flex-shrink-0 w-[82vw] max-w-[320px] snap-center md:w-auto md:max-w-none min-w-0">
+                    <div
+                        class="neo-card project-card hoverable shadow-neo-blue p-8 reveal delay-100 flex flex-col h-full group hover:bg-[#0b121a] transition-colors">
+                        <div class="flex justify-between items-start mb-6 border-b-2 border-border pb-4">
+                            <div class="font-mono text-[10px] tracking-widest text-blue">SYS.ID // 002</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-blue group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-black mb-4 uppercase leading-none group-hover:animate-glitch-fast">
+                            Diabetic
+                            Foot Ulcer Classifier</h3>
+                        <p class="font-mono text-sm text-gray-400 mb-6 line-clamp-3">CNN-based image classification
+                            system
+                            for automated detection and grading of diabetic foot ulcers with preprocessing for model
+                            generalization.</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="neo-badge hoverable">Python</span>
+                            <span class="neo-badge hoverable">CNN</span>
+                            <span class="neo-badge hoverable">OpenCV</span>
+                            <span class="neo-badge hoverable">NumPy</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                            <span class="font-mono text-[10px] text-blue tracking-widest uppercase">VIEW_PROJECT</span>
+                            <span
+                                class="font-mono text-blue text-sm group-hover:translate-x-1 transition-transform duration-200 inline-block">&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 3 -->
+                <a href="projects/doctor-appointment.html" class="project-card-link flex-shrink-0 w-[82vw] max-w-[320px] snap-center md:w-auto md:max-w-none min-w-0">
+                    <div
+                        class="neo-card project-card hoverable shadow-neo-yellow p-8 reveal flex flex-col h-full group hover:bg-[#1a180b] transition-colors">
+                        <div class="flex justify-between items-start mb-6 border-b-2 border-border pb-4">
+                            <div class="font-mono text-[10px] tracking-widest text-yellow">SYS.ID // 003</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-yellow group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-black mb-4 uppercase leading-none group-hover:animate-glitch-fast">
+                            Doctor
+                            Appointment System</h3>
+                        <p class="font-mono text-sm text-gray-400 mb-6 line-clamp-3">Full-stack platform with JWT
+                            authentication, dynamic dashboards for roles, and robust appointment lifecycle logic.</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="neo-badge hoverable">MERN Stack</span>
+                            <span class="neo-badge hoverable">JWT</span>
+                            <span class="neo-badge hoverable">MongoDB</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                            <span
+                                class="font-mono text-[10px] text-yellow tracking-widest uppercase">VIEW_PROJECT</span>
+                            <span
+                                class="font-mono text-yellow text-sm group-hover:translate-x-1 transition-transform duration-200 inline-block">&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 4 -->
+                <a href="projects/chat-app.html" class="project-card-link flex-shrink-0 w-[82vw] max-w-[320px] snap-center md:w-auto md:max-w-none min-w-0">
+                    <div
+                        class="neo-card project-card hoverable shadow-neo-green p-8 reveal delay-100 flex flex-col h-full group hover:bg-[#0b1a12] transition-colors">
+                        <div class="flex justify-between items-start mb-6 border-b-2 border-border pb-4">
+                            <div class="font-mono text-[10px] tracking-widest text-green">SYS.ID // 004</div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-black mb-4 uppercase leading-none group-hover:animate-glitch-fast">
+                            Real-Time Chat App</h3>
+                        <p class="font-mono text-sm text-gray-400 mb-6 line-clamp-3">Bidirectional messaging system
+                            supporting private and group chats, scalable WebSocket events, and persistent storage.</p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="neo-badge hoverable">MERN Stack</span>
+                            <span class="neo-badge hoverable">Socket.io</span>
+                            <span class="neo-badge hoverable">React.js</span>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                            <span class="font-mono text-[10px] text-green tracking-widest uppercase">VIEW_PROJECT</span>
+                            <span
+                                class="font-mono text-green text-sm group-hover:translate-x-1 transition-transform duration-200 inline-block">&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Research Highlight -->
+        <section id="research"
+            class="horizontal-section neo-container flex flex-col justify-center border-l-2 border-border">
+            <div class="flex items-center gap-4 mb-16 reveal">
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-mono">
+                    // SECTION: RESEARCH_PUB
+                </span>
+                <div class="flex-1 border-t border-border"></div>
+            </div>
+
+            <!-- Flipbook Container -->
+            <div
+                class="reveal w-full flex justify-center relative delay-100 mb-8 mt-2 perspective-container book-container-wrapper">
+                <div id="research-book" class="flip-book mx-auto">
+                    <!-- Page 1: Cover -->
+                    <div class="page page-cover page-cover-top" data-density="hard">
+                        <div
+                            class="page-content flex flex-col h-full bg-[#111111] border-2 border-[#f8f9fa] relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 bg-orange text-[#111111] font-mono text-[10px] md:text-xs font-black px-2 md:px-4 py-2 border-l-2 border-b-2 border-[#f8f9fa] z-10 animate-pulse">
+                                > IEEE_PUB
+                            </div>
+                            <div class="p-6 md:p-10 flex-1 flex flex-col justify-center relative z-10 crt-scanlines">
+                                <div class="text-xs tracking-widest text-orange mb-4 font-mono">// RESEARCH PAPER</div>
+                                <h3 class="text-2xl md:text-3xl lg:text-4xl font-black mb-6 uppercase leading-tight">
+                                    A Deep Learning Framework for Automated Multi-Class Skin Disease Detection Using
+                                    Dermoscopic Images
+                                </h3>
+                                <div class="font-mono text-sm md:text-base border-l-4 border-orange pl-4 text-gray-400">
+                                    <p class="font-bold text-[#f8f9fa] mb-2">Joshin K Saju, Deepayan Thakur, Parth
+                                        Sharma</p>
+                                    <p>ICAISS 2025 | Amity University</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page 2: Inside Cover / Abstract -->
+                    <div class="page">
+                        <div
+                            class="page-content bg-[#1a1a1a] border-2 border-[#4a4a4a] border-l-0 p-6 md:p-10 font-mono text-xs md:text-sm lg:text-base text-gray-400 h-full overflow-y-auto custom-scrollbar relative">
+                            <!-- Doodle: Math Root -->
+                            <svg class="absolute top-8 right-8 w-12 h-12 text-[#4a4a4a] opacity-30 transform rotate-12"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12h3l3 9 5-18 4 9h3"></path>
+                            </svg>
+
+                            <h4
+                                class="text-pink font-bold uppercase tracking-widest mb-4 border-b border-[#4a4a4a] pb-2 relative z-10">
+                                Abstract</h4>
+                            <p class="mb-4 leading-relaxed text-justify relative z-10">
+                                Skin diseases form a major world health concern, where early detection is crucial for
+                                improving patient outcomes and survival rates. However, skin lesion similarity across
+                                categories and severe class imbalance create a complex multi-class classification
+                                problem. A new effective framework based upon deep learning is presented in this
+                                research paper, targeting automated dermoscopic image analysis.
+                            </p>
+                            <p class="mb-4 leading-relaxed text-justify relative z-10">
+                                Transfer learning-based CNNs, pretrained on ImageNet, are utilized to analyze skin
+                                lesion characteristics across seven diagnostic categories. Preprocessing methods,
+                                including resizing to uniform resolution, intensity normalization to [0,1], and data
+                                augmentation through rotation, flipping, and color jittering, are utilized to achieve
+                                better reproducibility and model robustness.
+                            </p>
+                            <p class="mb-6 leading-relaxed text-justify relative z-10">
+                                The training minimizes false negatives for malignant classes by using categorical
+                                cross-entropy loss along with the Adam optimizer, incorporating sensitivity-driven
+                                learning with class-weighted sampling. The proposed system achieves 89% overall accuracy
+                                and 99% melanoma recall on 2003 held-out test images, demonstrating strong clinical
+                                viability.
+                            </p>
+                            <h4
+                                class="text-pink font-bold uppercase tracking-widest mb-4 mt-6 border-b border-[#4a4a4a] pb-2 relative z-10">
+                                Keywords</h4>
+                            <div class="flex flex-wrap gap-2 relative z-10">
+                                <span class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">Skin disease
+                                    detection</span>
+                                <span class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">Deep
+                                    learning</span>
+                                <span class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">CNN</span>
+                                <span class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">Transfer
+                                    learning</span>
+                                <span class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">HAM10000</span>
+                                <span
+                                    class="neo-badge !border-pink !text-pink !text-[10px] md:!text-xs">Dermoscopy</span>
+                            </div>
+                            <div class="page-number absolute bottom-4 left-0 w-full text-center text-[10px]">1</div>
+                        </div>
+                    </div>
+
+                    <!-- Page 3: Intro & Challenges -->
+                    <div class="page">
+                        <div
+                            class="page-content bg-[#1a1a1a] border-2 border-[#4a4a4a] border-l-0 md:border-l border-r-2 p-6 md:p-10 font-mono text-xs md:text-sm lg:text-base text-gray-400 h-full overflow-y-auto custom-scrollbar relative">
+                            <!-- Doodle: DNA / Helix -->
+                            <svg class="absolute bottom-16 right-6 w-16 h-16 text-[#4a4a4a] opacity-20 transform -rotate-12"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4c4 4 12 4 16 0M4 20c4-4 12-4 16 0M4 12c4 4 12 4 16 0M4 12c4-4 12-4 16 0">
+                                </path>
+                                <line x1="12" y1="4" x2="12" y2="20"></line>
+                            </svg>
+
+                            <h4
+                                class="text-blue font-bold uppercase tracking-widest mb-4 border-b border-[#4a4a4a] pb-2">
+                                I. Introduction</h4>
+                            <p class="mb-4 leading-relaxed text-justify">
+                                Human skin functions as a primary defense system against environmental hazards. Despite
+                                its accessibility for visual examination, skin disease diagnosis remains difficult due
+                                to similar physical presentations across disorders and the subjective nature of clinical
+                                assessment. Malignant skin cancers like melanoma carry high mortality rates when
+                                detection is delayed, with survival dropping sharply beyond Stage II.
+                            </p>
+                            <p class="mb-4 leading-relaxed text-justify">
+                                Traditional diagnostic methods rely heavily on dermatologist expertise and face poor
+                                generalization due to variations in illumination, skin tones, imaging devices, and
+                                lesion complexities. The emergence of CNNs has marked a breakthrough in dermatology
+                                image analysis, enabling automated feature extraction that surpasses handcrafted
+                                descriptors. The HAM10000 dataset, containing over 10,000 dermoscopic images across
+                                seven categories, provides a standardized benchmark for evaluating such systems.
+                            </p>
+                            <h4
+                                class="text-blue font-bold uppercase tracking-widest mb-4 mt-6 border-b border-[#4a4a4a] pb-2">
+                                Challenges</h4>
+                            <ul class="list-disc pl-5 space-y-2 text-justify">
+                                <li>Limited availability of large, diverse, and well-annotated datasets across all skin
+                                    tones and demographics.</li>
+                                <li>Severe class imbalance in multi-class classification — melanocytic nevi dominating
+                                    with ~67% of samples.</li>
+                                <li>High visual similarity among different diseases (e.g., benign keratosis vs. actinic
+                                    keratosis, eczema vs. psoriasis).</li>
+                                <li>Image quality variations caused by inconsistent lighting, noise, hair occlusion, and
+                                    color calibration differences.</li>
+                                <li>Clinical requirement for high sensitivity in malignant classes, where false
+                                    negatives carry life-threatening consequences.</li>
+                            </ul>
+                            <div class="page-number absolute bottom-4 left-0 w-full text-center text-[10px]">2</div>
+                        </div>
+                    </div>
+
+                    <!-- Page 4: Methodology -->
+                    <div class="page">
+                        <div
+                            class="page-content bg-[#1a1a1a] border-2 border-[#4a4a4a] border-l-0 p-6 md:p-10 font-mono text-xs md:text-sm lg:text-base text-gray-400 h-full overflow-y-auto custom-scrollbar relative">
+                            <!-- Doodle: Pencil -->
+                            <svg class="absolute top-10 right-6 w-12 h-12 text-[#4a4a4a] opacity-30 transform rotate-45"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+
+                            <h4
+                                class="text-green font-bold uppercase tracking-widest mb-4 border-b border-[#4a4a4a] pb-2">
+                                III. Methodology</h4>
+                            <p class="mb-4 leading-relaxed text-justify">
+                                The system evaluates seven diagnostic categories from the HAM10000 dataset: benign
+                                keratosis-like lesions (bkl), melanocytic nevi (nv), dermatofibroma (df), melanoma
+                                (mel), vascular lesions (vasc), basal cell carcinoma (bcc), and actinic keratosis
+                                (akiec). The dataset was split into 80% training and 20% testing subsets with stratified
+                                sampling to preserve class distribution.
+                            </p>
+                            <div class="mb-4 border-l-2 border-green pl-4">
+                                <span class="text-[#f8f9fa] font-bold">Data Prep:</span> Images resized to 224×224
+                                uniform resolution. Intensities normalized to [0,1] using min-max normalization to
+                                stabilize gradient updates. Augmentation strategies including random rotation (±30°),
+                                horizontal/vertical flips, and color jittering were applied to minority classes to
+                                mitigate imbalance.
+                            </div>
+                            <div class="mb-4 border-l-2 border-green pl-4">
+                                <span class="text-[#f8f9fa] font-bold">Feature Extraction:</span> Employs deep
+                                hierarchical extraction using pretrained CNNs (ResNet50 backbone). Transfer learning on
+                                ImageNet weights enables exploitation of low-level edges, textures, and high-level
+                                semantic representations without training from scratch.
+                            </div>
+                            <div class="mb-4 border-l-2 border-green pl-4">
+                                <span class="text-[#f8f9fa] font-bold">Optimization:</span> Categorical cross-entropy
+                                loss with Adam optimizer (lr=0.0001). Dropout (p=0.5) randomly deactivates neurons to
+                                reduce overfitting. Learning rate scheduling with ReduceLROnPlateau monitors validation
+                                loss for adaptive convergence.
+                            </div>
+                            <div class="border-l-2 border-green pl-4">
+                                <span class="text-[#f8f9fa] font-bold">Architecture:</span> Final classification head
+                                consists of Global Average Pooling → Dense(512, ReLU) → Dropout → Dense(7, Softmax).
+                                Batch normalization layers stabilize intermediate activations during training.
+                            </div>
+                            <div class="page-number absolute bottom-4 left-0 w-full text-center text-[10px]">3</div>
+                        </div>
+                    </div>
+
+                    <!-- Page 5: Results -->
+                    <div class="page">
+                        <div
+                            class="page-content bg-[#1a1a1a] border-2 border-[#4a4a4a] border-l-0 md:border-l border-r-2 p-6 md:p-10 font-mono text-xs md:text-sm lg:text-base text-gray-400 h-full flex flex-col custom-scrollbar overflow-y-auto relative">
+                            <!-- Doodle: Network Graph -->
+                            <svg class="absolute top-12 right-8 w-14 h-14 text-[#4a4a4a] opacity-20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+
+                            <h4
+                                class="text-yellow font-bold uppercase tracking-widest mb-4 border-b border-[#4a4a4a] pb-2 relative z-10">
+                                IV. Results</h4>
+
+                            <div
+                                class="grid grid-cols-2 gap-4 border-b border-[#4a4a4a] pb-4 mb-4 border-dashed relative z-10">
+                                <div class="text-center">
+                                    <div class="text-4xl md:text-5xl font-black text-[#f8f9fa] mb-2">89%<span
+                                            class="animate-blink text-orange">_</span></div>
+                                    <div class="text-[10px] tracking-widest uppercase">Overall Accuracy</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-4xl md:text-5xl font-black text-[#f8f9fa] mb-2">99%<span
+                                            class="animate-blink text-blue">_</span></div>
+                                    <div class="text-[10px] tracking-widest uppercase">Melanoma Recall</div>
+                                </div>
+                            </div>
+
+                            <p class="leading-relaxed text-justify mb-3 relative z-10">
+                                System demonstrated strong generalization on 2003 held-out test images. Multi-class
+                                ROC-AUC values ranged from 0.98 to 1.00, confirming excellent discriminative ability
+                                across all seven categories. Per-class F1 scores exceeded 0.85 for majority classes.
+                            </p>
+                            <p class="leading-relaxed text-justify mb-3 relative z-10">
+                                The confusion matrix exhibits strong diagonal dominance. Error analysis revealed
+                                misclassifications occurred primarily between benign keratosis and actinic keratosis —
+                                visually similar lesion types — generating clinically safer errors that prioritize
+                                sensitivity over specificity.
+                            </p>
+                            <p class="leading-relaxed text-justify opacity-90 text-xs relative z-10">
+                                Notably, the model maintained >95% sensitivity for both melanoma and basal cell
+                                carcinoma, the two most clinically dangerous categories. Precision-recall curves further
+                                validated that the framework avoids dangerous false-negative predictions in high-risk
+                                diagnostic scenarios.
+                            </p>
+
+                            <div class="page-number absolute bottom-4 left-0 w-full text-center text-[10px]">4</div>
+                        </div>
+                    </div>
+
+                    <!-- Page 6: Back Cover -->
+                    <div class="page page-cover page-cover-bottom" data-density="hard">
+                        <div
+                            class="page-content flex flex-col h-full bg-[#111111] border-2 border-[#f8f9fa] border-l-0 md:border-l border-r-2 p-6 md:p-10 justify-center items-center text-center relative overflow-hidden">
+                            <div class="absolute inset-0 crt-scanlines pointer-events-none"></div>
+
+                            <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase z-10">V. Conclusion</h3>
+                            <p class="font-mono text-sm md:text-base text-gray-400 mb-4 max-w-sm z-10">
+                                The framework achieves a strong balance between accuracy, sensitivity, and robustness
+                                across all seven diagnostic categories. The exceptionally high recall for malignant
+                                lesions — 99% for melanoma and >95% for basal cell carcinoma — highlights its
+                                suitability as a clinical decision-support tool.
+                            </p>
+                            <p class="font-mono text-xs text-gray-500 mb-10 max-w-sm z-10">
+                                Future work includes expanding the dataset to encompass diverse skin tones, integrating
+                                attention mechanisms for improved interpretability, and deploying the model as a
+                                real-time mobile diagnostic aid for resource-limited clinical settings.
+                            </p>
+
+                            <a href="https://ieeexplore.ieee.org/document/11465623" target="_blank"
+                                class="neo-button hoverable shadow-neo-white relative z-10 w-full max-w-[250px] !text-xs md:!text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="mr-2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                READ FULL PAPER
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flipbook Controls -->
+                <div class="absolute -bottom-6 md:-bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-20">
+                    <button id="btn-prev" class="neo-button hoverable !p-3 shadow-neo-white bg-[#111111]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                    </button>
+                    <div
+                        class="font-mono text-xs flex items-center justify-center bg-[#111111] border-2 border-[#f8f9fa] px-4 shadow-neo-white">
+                        PAGE <span id="page-current" class="mx-1 font-bold text-orange">1</span> / <span id="page-total"
+                            class="mx-1">6</span>
+                    </div>
+                    <button id="btn-next" class="neo-button hoverable !p-3 shadow-neo-white bg-[#111111]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section: Experience Vault -->
+        <section id="experience" class="horizontal-section neo-container flex flex-col border-l-2 border-border"
+            style="padding-top:1.5rem; padding-bottom:1.5rem;">
+            <div class="w-full flex flex-col flex-1 min-h-0">
+                <!-- Section Header -->
+                <div class="flex items-center gap-4 mb-4 flex-shrink-0 reveal">
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-mono">
+                        // LOG: EXPERIENCE_VAULT
+                    </span>
+                    <div class="flex-1 border-t border-border border-dashed"></div>
+                </div>
+
+                <!-- Vertical title + Grid layout -->
+                <div class="vault-layout reveal flex-1 min-h-0">
+                    <!-- Vertical Heading -->
+                    <div class="vault-vertical-title">
+                        <h2 class="vault-title-text header-system-overview">
+                            <span class="system-text">EXPERIENCE </span><span class="overview-text">VAULT.</span>
+                        </h2>
+                        <p class="vault-title-hint font-mono">// Click a notebook</p>
+                    </div>
+
+                    <!-- 2x2 Notebook Grid -->
+                    <div class="vault-grid delay-100">
+                        <!-- Notebook 1: IIT Delhi -->
+                        <a href="experience/iit-delhi.html" class="vault-notebook-link hoverable"
+                            aria-label="View IIT Delhi experience detail page">
+                            <div class="vault-notebook">
+                                <div class="notebook-spine" style="--nb-color:#ff90e8;">
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                </div>
+                                <div class="notebook-cover"
+                                    style="--nb-color:#ff90e8; --nb-shadow:rgba(255,144,232,0.35);">
+                                    <div class="nb-header-row">
+                                        <div class="nb-label" style="background:#ff90e8; color:#111;">SYS.EXP // 001
+                                        </div>
+                                        <div class="nb-barcode" style="--nb-color:#ff90e8;"></div>
+                                    </div>
+                                    <div class="nb-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            width="48" height="48">
+                                            <path
+                                                d="M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="nb-title">AI/ML & Web Dev Intern</h3>
+                                    <p class="nb-org">> IHFC, IIT Delhi</p>
+                                    <div class="nb-tech-spec">
+                                        <span class="tech-dot" style="background-color:#ff90e8;"></span>
+                                        <span>INDEX_REF // 001</span>
+                                    </div>
+                                    <p class="nb-duration">// 2 Months · Offline</p>
+                                    <!-- Building Doodle 1: Cyberpunk Skyscraper Towers -->
+                                    <svg class="nb-doodle" viewBox="0 0 120 120" fill="none" stroke="currentColor">
+                                        <rect x="20" y="30" width="30" height="80" stroke-width="0.75" />
+                                        <line x1="20" y1="40" x2="50" y2="40" stroke-width="0.5"
+                                            stroke-dasharray="2 2" />
+                                        <line x1="20" y1="50" x2="50" y2="50" stroke-width="0.5" />
+                                        <line x1="20" y1="60" x2="50" y2="60" stroke-width="0.5"
+                                            stroke-dasharray="2 2" />
+                                        <line x1="20" y1="70" x2="50" y2="70" stroke-width="0.5" />
+                                        <line x1="20" y1="80" x2="50" y2="80" stroke-width="0.5"
+                                            stroke-dasharray="2 2" />
+                                        <line x1="20" y1="90" x2="50" y2="90" stroke-width="0.5" />
+                                        <line x1="35" y1="30" x2="35" y2="15" stroke-width="0.75" />
+                                        <circle cx="35" cy="15" r="1.5" fill="currentColor" />
+                                        <path d="M60 50 L90 35 L90 110 L60 110 Z" stroke-width="0.75" />
+                                        <line x1="60" y1="65" x2="90" y2="50" stroke-width="0.5" />
+                                        <line x1="60" y1="80" x2="90" y2="65" stroke-width="0.5" />
+                                        <line x1="60" y1="95" x2="90" y2="80" stroke-width="0.5" />
+                                        <rect x="68" y="58" width="6" height="10" stroke-width="0.5"
+                                            stroke-dasharray="1 1" />
+                                        <rect x="78" y="53" width="6" height="10" stroke-width="0.5"
+                                            stroke-dasharray="1 1" />
+                                        <rect x="68" y="73" width="6" height="10" stroke-width="0.5"
+                                            stroke-dasharray="1 1" />
+                                        <rect x="78" y="68" width="6" height="10" stroke-width="0.5"
+                                            stroke-dasharray="1 1" />
+                                        <rect x="10" y="70" width="20" height="40" stroke-width="0.5" />
+                                        <rect x="90" y="70" width="20" height="40" stroke-width="0.5" />
+                                        <line x1="0" y1="110" x2="120" y2="110" stroke-width="1" />
+                                        <line x1="5" y1="114" x2="115" y2="114" stroke-width="0.5"
+                                            stroke-dasharray="4 2" />
+                                    </svg>
+                                    <div class="nb-corner-fold" style="--nb-color:#ff90e8;"></div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 2: GIIT Solutions -->
+                        <a href="experience/giit-solutions.html" class="vault-notebook-link hoverable"
+                            aria-label="View GIIT Solutions experience detail page">
+                            <div class="vault-notebook">
+                                <div class="notebook-spine" style="--nb-color:#90e0ef;">
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                </div>
+                                <div class="notebook-cover"
+                                    style="--nb-color:#90e0ef; --nb-shadow:rgba(144,224,239,0.35);">
+                                    <div class="nb-header-row">
+                                        <div class="nb-label" style="background:#90e0ef; color:#111;">SYS.EXP // 002
+                                        </div>
+                                        <div class="nb-barcode" style="--nb-color:#90e0ef;"></div>
+                                    </div>
+                                    <div class="nb-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            width="48" height="48">
+                                            <polyline points="16 18 22 12 16 6" />
+                                            <polyline points="8 6 2 12 8 18" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="nb-title">Web Dev Intern</h3>
+                                    <p class="nb-org">> GIIT Solutions</p>
+                                    <div class="nb-tech-spec">
+                                        <span class="tech-dot" style="background-color:#90e0ef;"></span>
+                                        <span>INDEX_REF // 002</span>
+                                    </div>
+                                    <p class="nb-duration">// May–Jun 2025</p>
+                                    <!-- Building Doodle 2: Communication Hub with Radar Dish -->
+                                    <svg class="nb-doodle" viewBox="0 0 120 120" fill="none" stroke="currentColor">
+                                        <line x1="0" y1="110" x2="120" y2="110" stroke-width="1" />
+                                        <path d="M30 110 L30 75 A 30 30 0 0 1 90 75 L90 110 Z" stroke-width="0.75" />
+                                        <path d="M40 75 A 20 20 0 0 1 80 75" stroke-width="0.5"
+                                            stroke-dasharray="2 2" />
+                                        <line x1="60" y1="45" x2="60" y2="25" stroke-width="0.75" />
+                                        <path d="M50 25 C50 15, 70 15, 70 25 Z" stroke-width="0.75" />
+                                        <line x1="60" y1="20" x2="65" y2="15" stroke-width="0.75" />
+                                        <rect x="10" y="85" width="20" height="25" stroke-width="0.5" />
+                                        <line x1="10" y1="95" x2="30" y2="95" stroke-width="0.5" />
+                                        <rect x="90" y="85" width="20" height="25" stroke-width="0.5" />
+                                        <line x1="90" y1="95" x2="110" y2="95" stroke-width="0.5" />
+                                        <line x1="60" y1="45" x2="60" y2="110" stroke-width="0.5"
+                                            stroke-dasharray="1 3" />
+                                        <line x1="30" y1="75" x2="90" y2="75" stroke-width="0.5"
+                                            stroke-dasharray="2 2" />
+                                    </svg>
+                                    <div class="nb-corner-fold" style="--nb-color:#90e0ef;"></div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 3: Afame -->
+                        <a href="experience/afame-technologies.html" class="vault-notebook-link hoverable"
+                            aria-label="View Afame Technologies experience detail page">
+                            <div class="vault-notebook">
+                                <div class="notebook-spine" style="--nb-color:#f4f482;">
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                </div>
+                                <div class="notebook-cover"
+                                    style="--nb-color:#f4f482; --nb-shadow:rgba(244,244,130,0.35);">
+                                    <div class="nb-header-row">
+                                        <div class="nb-label" style="background:#f4f482; color:#111;">SYS.EXP // 003
+                                        </div>
+                                        <div class="nb-barcode" style="--nb-color:#f4f482;"></div>
+                                    </div>
+                                    <div class="nb-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            width="48" height="48">
+                                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                                            <path d="m8 21 4-4 4 4" />
+                                            <path d="M12 17v4" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="nb-title">Web Dev Intern</h3>
+                                    <p class="nb-org">> Afame Technologies</p>
+                                    <div class="nb-tech-spec">
+                                        <span class="tech-dot" style="background-color:#f4f482;"></span>
+                                        <span>INDEX_REF // 003</span>
+                                    </div>
+                                    <p class="nb-duration">// May–Jun 2024 · Remote</p>
+                                    <!-- Building Doodle 3: Modern Cantilevered Blocks -->
+                                    <svg class="nb-doodle" viewBox="0 0 120 120" fill="none" stroke="currentColor">
+                                        <line x1="0" y1="110" x2="120" y2="110" stroke-width="1" />
+                                        <rect x="35" y="80" width="50" height="30" stroke-width="0.75" />
+                                        <rect x="15" y="55" width="60" height="25" stroke-width="0.75" />
+                                        <line x1="15" y1="67.5" x2="75" y2="67.5" stroke-width="0.5"
+                                            stroke-dasharray="3 1" />
+                                        <rect x="45" y="30" width="60" height="25" stroke-width="0.75" />
+                                        <line x1="45" y1="42.5" x2="105" y2="42.5" stroke-width="0.5"
+                                            stroke-dasharray="3 1" />
+                                        <line x1="25" y1="80" x2="35" y2="110" stroke-width="0.75" />
+                                        <line x1="95" y1="55" x2="85" y2="80" stroke-width="0.75" />
+                                        <circle cx="95" cy="42.5" r="1.5" fill="currentColor" />
+                                        <circle cx="25" cy="67.5" r="1.5" fill="currentColor" />
+                                        <line x1="15" y1="30" x2="15" y2="110" stroke-width="0.5"
+                                            stroke-dasharray="1 4" />
+                                        <line x1="105" y1="30" x2="105" y2="110" stroke-width="0.5"
+                                            stroke-dasharray="1 4" />
+                                    </svg>
+                                    <div class="nb-corner-fold" style="--nb-color:#f4f482;"></div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Notebook 4: Freelance -->
+                        <a href="experience/freelance.html" class="vault-notebook-link hoverable"
+                            aria-label="View Freelance experience detail page">
+                            <div class="vault-notebook">
+                                <div class="notebook-spine" style="--nb-color:#a3e635;">
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                    <div class="spine-ring"></div>
+                                </div>
+                                <div class="notebook-cover"
+                                    style="--nb-color:#a3e635; --nb-shadow:rgba(163,230,53,0.35);">
+                                    <div class="nb-header-row">
+                                        <div class="nb-label" style="background:#a3e635; color:#111;">SYS.EXP // 004
+                                        </div>
+                                        <div class="nb-barcode" style="--nb-color:#a3e635;"></div>
+                                    </div>
+                                    <div class="nb-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                            width="48" height="48">
+                                            <path
+                                                d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                                            <circle cx="12" cy="13" r="3" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="nb-title">Freelance Photo &amp; Video Editor</h3>
+                                    <p class="nb-org">> Independent</p>
+                                    <div class="nb-tech-spec">
+                                        <span class="tech-dot" style="background-color:#a3e635;"></span>
+                                        <span>INDEX_REF // 004</span>
+                                    </div>
+                                    <p class="nb-duration">// Ongoing</p>
+                                    <!-- Building Doodle 4: Creative Art Studio with Sawtooth Roof -->
+                                    <svg class="nb-doodle" viewBox="0 0 120 120" fill="none" stroke="currentColor">
+                                        <line x1="0" y1="110" x2="120" y2="110" stroke-width="1" />
+                                        <path d="M10 110 L10 80 L30 60 L30 80 L50 60 L50 80 L70 60 L70 110 Z"
+                                            stroke-width="0.75" />
+                                        <line x1="20" y1="70" x2="30" y2="70" stroke-width="0.5" />
+                                        <line x1="40" y1="70" x2="50" y2="70" stroke-width="0.5" />
+                                        <line x1="60" y1="70" x2="70" y2="70" stroke-width="0.5" />
+                                        <rect x="75" y="45" width="35" height="65" stroke-width="0.75" />
+                                        <circle cx="92.5" cy="65" r="10" stroke-width="0.75" />
+                                        <circle cx="92.5" cy="65" r="6" stroke-width="0.5" stroke-dasharray="2 1" />
+                                        <line x1="82.5" y1="65" x2="102.5" y2="65" stroke-width="0.5" />
+                                        <line x1="92.5" y1="55" x2="92.5" y2="75" stroke-width="0.5" />
+                                        <line x1="92.5" y1="45" x2="92.5" y2="25" stroke-width="0.75" />
+                                        <polygon points="92.5,25 105,30 92.5,35" stroke-width="0.5" fill="currentColor"
+                                            opacity="0.3" />
+                                    </svg>
+                                    <div class="nb-corner-fold" style="--nb-color:#a3e635;"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience detail cards link directly to subpages (modal overlay removed) -->
+
+        <style>
+            /* ─── Experience Vault: Layout ─── */
+            .vault-layout {
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 0;
+                width: 100%;
+            }
+
+            .vault-vertical-title {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                flex-shrink: 0;
+                width: 110px;
+                padding: 0 10px;
+                gap: 1rem;
+            }
+
+            .vault-title-text {
+                font-size: clamp(3.2rem, 6vw, 5.6rem);
+                font-weight: 900;
+                text-transform: uppercase;
+                letter-spacing: -0.02em;
+                line-height: 1;
+                white-space: nowrap;
+            }
+
+            .vault-title-hint {
+                font-size: 0.55rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #444;
+                white-space: nowrap;
+            }
+
+            /* ─── Experience Vault: Notebook Grid ─── */
+            .vault-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 0;
+                flex: 1;
+                min-width: 0;
+                align-content: stretch;
+                align-items: stretch;
+            }
+
+            @media (max-width: 767px) {
+                .vault-layout {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .vault-vertical-title {
+                    writing-mode: horizontal-tb;
+                    transform: none;
+                    width: auto;
+                    border-right: none;
+                    border-bottom: 1px solid #2a2a2a;
+                    padding: 0 0 0.5rem;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 1rem;
+                }
+
+                .vault-grid {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    overflow-x: auto !important;
+                    scroll-snap-type: x mandatory !important;
+                    gap: 1.5rem !important;
+                    padding-bottom: 1rem !important;
+                    width: 100% !important;
+                    -ms-overflow-style: none !important;
+                    scrollbar-width: none !important;
+                }
+                .vault-grid::-webkit-scrollbar {
+                    display: none !important;
+                }
+
+                .vault-notebook-link {
+                    flex-shrink: 0 !important;
+                    width: 78vw !important;
+                    max-width: 280px !important;
+                    height: 280px !important;
+                    scroll-snap-align: center !important;
+                }
+            }
+
+            .vault-notebook-link {
+                display: flex;
+                text-decoration: none;
+                color: inherit;
+                cursor: none;
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                position: relative;
+                z-index: 1;
+            }
+
+            .vault-notebook-link:hover {
+                z-index: 10;
+            }
+
+
+            .vault-notebook {
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                cursor: pointer;
+                transform: translate(0, 0);
+                transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.25s ease;
+                will-change: transform;
+                position: relative;
+                outline: none;
+                box-shadow: 4px 4px 0px 0px #f8f9fa;
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+            }
+
+            @media (hover: hover) {
+                .vault-notebook:hover,
+                .vault-notebook:focus-visible {
+                    transform: scale(1.25);
+                    box-shadow: 7px 7px 0px 0px #f8f9fa;
+                    z-index: 10;
+                }
+            }
+
+            /* Spiral Spine */
+            .notebook-spine {
+                width: 32px;
+                flex-shrink: 0;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                padding: 12px 0;
+                position: relative;
+                z-index: 2;
+                overflow: hidden;
+            }
+
+            .spine-ring {
+                width: 22px;
+                height: 14px;
+                border: 3px solid color-mix(in srgb, var(--nb-color) 35%, #555);
+                border-radius: 50%;
+                background: transparent;
+                box-shadow:
+                    0 0 0 1px #222,
+                    inset 0 1px 2px rgba(255, 255, 255, 0.08),
+                    0 2px 4px rgba(0, 0, 0, 0.6);
+                position: relative;
+                transition: border-color 0.25s ease, transform 0.25s ease;
+            }
+
+            .spine-ring::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: -4px;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 4px;
+                background: #333;
+                border-radius: 2px 2px 0 0;
+            }
+
+            .vault-notebook:hover .spine-ring {
+                border-color: var(--nb-color);
+                transform: scaleX(1.05);
+            }
+
+            /* Notebook Cover */
+            .notebook-cover {
+                flex: 1;
+                background-color: #0a0a0a;
+                background-image:
+                    radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, transparent 40px, rgba(255, 95, 86, 0.12) 40px, rgba(255, 95, 86, 0.12) 41px, transparent 41px),
+                    repeating-linear-gradient(transparent,
+                        transparent 17px,
+                        rgba(255, 255, 255, 0.015) 17px,
+                        rgba(255, 255, 255, 0.015) 18px);
+                background-size: 14px 14px, auto, auto;
+                border: 2px solid #f8f9fa;
+                border-left: 1px solid rgba(248, 249, 250, 0.15);
+                padding: 16px 16px 16px 14px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                overflow: hidden;
+                box-shadow: inset 8px 0 8px -6px rgba(0, 0, 0, 0.8);
+            }
+
+            .notebook-cover::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.025) 0%, transparent 60%);
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            /* Vertical accent stripe on left edge of cover */
+            .notebook-cover::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 4px;
+                background: var(--nb-color);
+                opacity: 0.45;
+                transition: opacity 0.25s ease, width 0.25s ease;
+                pointer-events: none;
+                z-index: 2;
+            }
+
+            .vault-notebook:hover .notebook-cover::after {
+                opacity: 1;
+                width: 6px;
+            }
+
+            .nb-header-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 14px;
+                position: relative;
+                z-index: 3;
+                width: 100%;
+            }
+
+            .nb-label {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: 0.15em;
+                padding: 3px 6px;
+                display: inline-block;
+                width: fit-content;
+                position: relative;
+                z-index: 3;
+            }
+
+            .nb-barcode {
+                width: 45px;
+                height: 12px;
+                opacity: 0.35;
+                background: repeating-linear-gradient(90deg,
+                        var(--nb-color),
+                        var(--nb-color) 1px,
+                        transparent 1px,
+                        transparent 3px,
+                        var(--nb-color) 3px,
+                        var(--nb-color) 5px,
+                        transparent 5px,
+                        transparent 6px);
+                transition: opacity 0.25s ease;
+                z-index: 3;
+            }
+
+            .vault-notebook:hover .nb-barcode {
+                opacity: 0.75;
+            }
+
+            .nb-icon {
+                width: 52px;
+                height: 52px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px dashed color-mix(in srgb, var(--nb-color) 25%, transparent);
+                background: color-mix(in srgb, var(--nb-color) 4%, transparent);
+                color: #f8f9fa;
+                margin-bottom: 14px;
+                position: relative;
+                z-index: 3;
+                transition: all 0.25s ease;
+                border-radius: 2px;
+            }
+
+            .vault-notebook:hover .nb-icon {
+                border: 1px solid var(--nb-color);
+                background: color-mix(in srgb, var(--nb-color) 10%, transparent);
+                color: var(--nb-color);
+            }
+
+            .nb-icon svg {
+                width: 26px;
+                height: 26px;
+                transition: transform 0.25s ease;
+            }
+
+            .vault-notebook:hover .nb-icon svg {
+                transform: scale(1.1);
+            }
+
+            .nb-title {
+                font-family: 'Inter', sans-serif;
+                font-weight: 900;
+                font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+                text-transform: uppercase;
+                letter-spacing: 0.03em;
+                color: #f8f9fa;
+                margin-bottom: 6px;
+                line-height: 1.2;
+                position: relative;
+                z-index: 3;
+            }
+
+            .nb-org {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: clamp(0.65rem, 1vw, 0.8rem);
+                color: var(--nb-color);
+                font-weight: 700;
+                margin-bottom: 12px;
+                position: relative;
+                z-index: 3;
+            }
+
+            .nb-tech-spec {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 7.5px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                color: #444;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-bottom: 6px;
+                text-transform: uppercase;
+                position: relative;
+                z-index: 3;
+                transition: color 0.25s ease;
+            }
+
+            .vault-notebook:hover .nb-tech-spec {
+                color: #888;
+            }
+
+            .tech-dot {
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                opacity: 0.5;
+                transition: opacity 0.25s ease, box-shadow 0.25s ease;
+            }
+
+            .vault-notebook:hover .tech-dot {
+                opacity: 1;
+                box-shadow: 0 0 4px var(--nb-color);
+            }
+
+            .nb-duration {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: clamp(0.6rem, 0.9vw, 0.7rem);
+                color: #555;
+                margin-top: auto;
+                position: relative;
+                z-index: 3;
+            }
+
+            /* Engineering Doodles */
+            .nb-doodle {
+                position: absolute;
+                bottom: 12px;
+                right: 12px;
+                width: clamp(160px, 24vw, 230px);
+                height: clamp(160px, 24vw, 230px);
+                color: #f8f9fa;
+                opacity: 0.22;
+                pointer-events: none;
+                z-index: 1;
+                transition: opacity 0.25s ease, color 0.25s ease, transform 0.25s ease;
+                transform: scale(0.95);
+                transform-origin: bottom right;
+            }
+
+            .vault-notebook:hover .nb-doodle {
+                opacity: 0.65;
+                color: var(--nb-color);
+                transform: scale(1);
+            }
+
+            /* Dog-ear corner fold — subtle monochrome */
+            .nb-corner-fold {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 20px;
+                height: 20px;
+                background: linear-gradient(135deg,
+                        color-mix(in srgb, var(--nb-color) 25%, #2a2a2a) 0%,
+                        color-mix(in srgb, var(--nb-color) 25%, #2a2a2a) 50%,
+                        #0a0a0a 50%);
+                clip-path: polygon(100% 0, 100% 100%, 0 100%);
+                z-index: 4;
+            }
+
+            /* Modal styles removed */
+        </style>
+
+        <!-- JavaScript for modal popup removed -->
+
+        <!-- Education Section — Roaming Clouds -->
+        <!--
+        Important: Do NOT redesign, replace, or alter the existing website theme, color palette, typography, visual language, navigation style, HUD elements, animations, spacing system, or cyber-futuristic aesthetic. The Education Constellation section must feel like it was originally designed as part of the existing website. Use the current design system, existing neon accent colors, existing glow effects, existing animation timing, and existing UI components. The constellation should be a thematic evolution of the current education section rather than a new design style. Maintain complete visual consistency with the rest of the portfolio.
+
+        Before generating the constellation, analyze the current website and inherit:
+
+        * Existing color palette
+        * Existing background effects
+        * Existing typography
+        * Existing animation curves and durations
+        * Existing HUD/terminal aesthetics
+        * Existing spacing and layout principles
+        * Existing glow and lighting effects
+
+        The final result should look as if the constellation was created by the same designer who built the rest of the website, with zero visual disconnect.
+        -->
+        <section id="education" class="horizontal-section border-l-2 border-border relative overflow-hidden"
+            style="padding:0; background:#111111;">
+
+            <!-- Dot-grid bg matching rest of site -->
+            <div class="absolute inset-0 dot-grid-bg pointer-events-none" style="z-index:0; opacity:0.4;"></div>
+
+            <!-- Section label -->
+            <div class="absolute top-6 left-8 z-20 flex items-center gap-3 pointer-events-none">
+                <span class="text-[10px] tracking-[0.2em] uppercase text-gray-600 font-mono">// LOG:
+                    ACADEMIC_RECORD</span>
+                <div class="border-t border-border border-dashed w-20"></div>
+            </div>
+
+            <!-- Section Title -->
+            <div class="absolute top-20 left-8 z-20 pointer-events-none select-none">
+                <h2 class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter hover:animate-glitch transition-all header-system-overview sm:whitespace-nowrap" style="margin: 0;">
+                    <span class="system-text">EDU</span> <span class="overview-text">CATION.</span>
+                </h2>
+            </div>
+
+            <!-- Academic Terminals - Bottom Right Horizontal Row -->
+            <div class="absolute bottom-8 right-8 z-20 flex flex-row gap-6 pointer-events-none hidden xl:flex">
+                
+                <!-- Terminal 3: Research -->
+                <div class="neo-card p-4 flex flex-col gap-3 w-72 md:w-80" style="border-color: #4a4a4a; box-shadow: 6px 6px 0px 0px #4a4a4a;">
+                    <div class="flex items-center justify-between border-b border-border pb-2">
+                        <span class="text-[10px] tracking-widest text-gray-500 font-mono">// SYS.MODULE.RSRCH</span>
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div class="font-mono text-[10px] sm:text-xs text-pink leading-relaxed opacity-90">
+                        <div>> scan research_archives</div>
+                        <div>> analyzing papers... <span class="text-gray-300">[OK]</span></div>
+                        <div>> _<span class="animate-pulse">_</span></div>
+                    </div>
+                    <div class="mt-2 pt-3 border-t border-border flex flex-col gap-2">
+                        <div class="text-white font-bold tracking-tight text-sm uppercase">Active Research</div>
+                        <p class="text-gray-400 text-xs leading-tight font-sans">
+                            Exploring novel architectures in Deep Learning, Computer Vision, and autonomous agents for next-gen AI systems.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <span class="text-[9px] font-mono bg-pink text-black px-1.5 py-0.5 border border-black font-bold">DEEP_LEARNING</span>
+                            <span class="text-[9px] font-mono bg-green-500 text-black px-1.5 py-0.5 border border-black font-bold">VISION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal 2: Metrics -->
+                <div class="neo-card p-4 flex flex-col gap-3 w-72 md:w-80" style="border-color: #4a4a4a; box-shadow: 6px 6px 0px 0px #4a4a4a;">
+                    <div class="flex items-center justify-between border-b border-border pb-2">
+                        <span class="text-[10px] tracking-widest text-gray-500 font-mono">// SYS.MODULE.METRICS</span>
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div class="font-mono text-[10px] sm:text-xs text-blue leading-relaxed opacity-90">
+                        <div>> ping core_metrics_server</div>
+                        <div>> analyzing performance... <span class="text-gray-300">[OK]</span></div>
+                        <div>> _<span class="animate-pulse">_</span></div>
+                    </div>
+                    <div class="mt-2 pt-3 border-t border-border flex flex-col gap-2">
+                        <div class="text-white font-bold tracking-tight text-sm uppercase">Performance Stats</div>
+                        <p class="text-gray-400 text-xs leading-tight font-sans">
+                            Consistent high performance across core modules. Excelling in analytical problem solving and algorithm optimization.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <span class="text-[9px] font-mono bg-green-500 text-black px-1.5 py-0.5 border border-black font-bold">LOGIC</span>
+                            <span class="text-[9px] font-mono bg-blue text-black px-1.5 py-0.5 border border-black font-bold">OPTIMIZATION</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal 1: Original Focus -->
+                <div class="neo-card p-4 flex flex-col gap-3 w-72 md:w-80" style="border-color: #4a4a4a; box-shadow: 6px 6px 0px 0px #4a4a4a;">
+                    <div class="flex items-center justify-between border-b border-border pb-2">
+                        <span class="text-[10px] tracking-widest text-gray-500 font-mono">// SYS.MODULE.EDU</span>
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div class="font-mono text-[10px] sm:text-xs text-green leading-relaxed opacity-90">
+                        <div>> init core_learning_modules</div>
+                        <div>> fetching records... <span class="text-gray-300">[OK]</span></div>
+                        <div>> _<span class="animate-pulse">_</span></div>
+                    </div>
+                    <div class="mt-2 pt-3 border-t border-border flex flex-col gap-2">
+                        <div class="text-white font-bold tracking-tight text-sm uppercase">Academic Focus</div>
+                        <p class="text-gray-400 text-xs leading-tight font-sans">
+                            Specializing in Artificial Intelligence, Machine Learning, and Full-Stack Development with a solid CS foundation.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            <span class="text-[9px] font-mono bg-pink text-black px-1.5 py-0.5 border border-black font-bold">AI/ML</span>
+                            <span class="text-[9px] font-mono bg-blue text-black px-1.5 py-0.5 border border-black font-bold">FULL_STACK</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Full-section canvas -->
+            <canvas id="edu-cloud-canvas" class="absolute inset-0"
+                style="z-index:10; width:100%; height:100%; cursor:none;"></canvas>
+
+        </section>
+
+        <style>
+            #education {
+                padding: 0 !important;
+            }
+
+            #edu-cloud-canvas {
+                display: block;
+            }
+        </style>
+
+        <script>
+
+                (function () {
+                    const canvas = document.getElementById('edu-cloud-canvas');
+                    if (!canvas) return;
+                    const ctx = canvas.getContext('2d');
+
+                    let cw, ch;
+                    function resize() {
+                        cw = canvas.parentElement.offsetWidth || window.innerWidth;
+                        ch = canvas.parentElement.offsetHeight || window.innerHeight;
+                        const dpr = window.devicePixelRatio || 1;
+                        canvas.width = cw * dpr;
+                        canvas.height = ch * dpr;
+                        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    }
+                    resize();
+                    window.addEventListener('resize', resize);
+
+                    // ── Education data (Constellation Nodes) ──────────────────────
+                    const EDU = [
+                        { id: 0, isEdu: false, color: [255, 255, 255], dxPct: 0.10, dyPct: 0.75, mxPct: 0.20, myPct: 0.90, hoverVal: 0, ringRotation: 0 },
+                        { id: 1, isEdu: true, title: 'B.TECH · IT', subtitle: 'SHARDA UNIVERSITY', duration: '2022 – 2026', grade: 'CGPA: 7.5 / 10', color: [163, 230, 53], label: '// NODE_SECURE.001', dxPct: 0.25, dyPct: 0.50, mxPct: 0.50, myPct: 0.75, details: ['TRACK: INFORMATION TECH', 'STATUS: COMPLETED', 'FOCUS: AI/ML & DEVELOPMENT'], hoverVal: 0, ringRotation: 0 },
+                        { id: 2, isEdu: false, color: [255, 255, 255], dxPct: 0.45, dyPct: 0.45, mxPct: 0.80, myPct: 0.60, hoverVal: 0, ringRotation: 0 },
+                        { id: 3, isEdu: true, title: 'XII · CBSE', subtitle: 'DON BOSCO SCHOOL', duration: '2020 – 2022', grade: 'SCORE: 65%', color: [244, 244, 130], label: '// NODE_LINK.002', dxPct: 0.60, dyPct: 0.40, mxPct: 0.50, myPct: 0.50, details: ['STREAM: SCIENCE (PCM)', 'BOARD: CBSE', 'STATUS: GRADUATED'], hoverVal: 0, ringRotation: 0 },
+                        { id: 4, isEdu: false, color: [255, 255, 255], dxPct: 0.70, dyPct: 0.60, mxPct: 0.20, myPct: 0.40, hoverVal: 0, ringRotation: 0 },
+                        { id: 5, isEdu: true, title: 'X · CBSE', subtitle: 'DON BOSCO SCHOOL', duration: '2018 – 2020', grade: 'SCORE: 70%', color: [144, 224, 239], label: '// NODE_ROOT.003', dxPct: 0.85, dyPct: 0.50, mxPct: 0.50, myPct: 0.25, details: ['BOARD: CBSE', 'SUBJECTS: GENERAL', 'STATUS: GRADUATED'], hoverVal: 0, ringRotation: 0 },
+                        { id: 6, isEdu: false, color: [255, 255, 255], dxPct: 0.85, dyPct: 0.25, mxPct: 0.80, myPct: 0.10, hoverVal: 0, ringRotation: 0 }
+                    ];
+
+                    let mx = -9999, my = -9999;
+                    canvas.addEventListener('mousemove', e => {
+                        const r = canvas.getBoundingClientRect();
+                        mx = e.clientX - r.left;
+                        my = e.clientY - r.top;
+                    });
+                    canvas.addEventListener('mouseleave', () => {
+                        mx = -9999;
+                        my = -9999;
+                    });
+
+                    // Touch support: Tap nodes on mobile/tablets to view detail box
+                    canvas.addEventListener('pointerdown', e => {
+                        const r = canvas.getBoundingClientRect();
+                        const clickX = e.clientX - r.left;
+                        const clickY = e.clientY - r.top;
+                        
+                        let nodeTapped = false;
+                        EDU.forEach(c => {
+                            if (c.isEdu) {
+                                const dist = Math.hypot(c.x - clickX, c.y - clickY);
+                                if (dist < 40) {
+                                    mx = c.x;
+                                    my = c.y;
+                                    nodeTapped = true;
+                                }
+                            }
+                        });
+                        
+                        // Clear box on blank space click
+                        if (!nodeTapped) {
+                            mx = -9999;
+                            my = -9999;
+                        }
+                    });
+
+                    function updatePositions() {
+                        const isMobile = cw < 768;
+                        EDU.forEach(c => {
+                            const targetX = (isMobile ? c.mxPct : c.dxPct) * cw;
+                            const targetY = (isMobile ? c.myPct : c.dyPct) * ch;
+                            if (c.x === undefined) {
+                                c.x = targetX;
+                                c.y = targetY;
+                            } else {
+                                c.x += (targetX - c.x) * 0.1;
+                                c.y += (targetY - c.y) * 0.1;
+                            }
+                        });
+                    }
+
+                    function drawConnection(fromNode, toNode) {
+                        ctx.save();
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(fromNode.x, fromNode.y);
+                        ctx.lineTo(toNode.x, toNode.y);
+                        
+                        ctx.strokeStyle = '#f8f9fa';
+                        ctx.lineWidth = 5;
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+
+                    function drawNode(c) {
+                        const cx = c.x;
+                        const cy = c.y;
+                        const colStr = `${c.color[0]}, ${c.color[1]}, ${c.color[2]}`;
+
+                        ctx.save();
+
+                        if (c.isEdu) {
+                            // Neo-brutalist node for Education
+                            const w = 46;
+                            const h = 28;
+                            const text = c.id === 1 ? "UNI" : (c.id === 3 ? "12TH" : "10TH");
+                            
+                            // Brutalist offset shadow
+                            ctx.fillStyle = `rgb(${colStr})`;
+                            ctx.fillRect(cx - w/2 + 4, cy - h/2 + 4, w, h);
+
+                            // Main Box
+                            ctx.fillStyle = '#0a0a0a';
+                            ctx.fillRect(cx - w/2, cy - h/2, w, h);
+
+                            // Border
+                            ctx.strokeStyle = '#f8f9fa';
+                            ctx.lineWidth = 2;
+                            ctx.strokeRect(cx - w/2, cy - h/2, w, h);
+
+                            // Text inside node
+                            ctx.font = "900 12px 'Inter', sans-serif";
+                            ctx.fillStyle = '#f8f9fa';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(text, cx, cy + 1);
+
+                            // Hover highlight outline
+                            if (c.hoverVal > 0.05) {
+                                ctx.strokeStyle = `rgba(${colStr}, ${c.hoverVal})`;
+                                ctx.lineWidth = 2;
+                                ctx.strokeRect(cx - w/2 - 4, cy - h/2 - 4, w + 8, h + 8);
+                            }
+
+                        } else {
+                            // Neo-brutalist node for normal stars (React Icons Star - scaled 2.5x)
+                            ctx.fillStyle = '#f8f9fa';
+                            ctx.strokeStyle = '#0a0a0a';
+                            
+                            ctx.save();
+                            ctx.translate(cx, cy);
+                            
+                            // Base size was r=8 (16px wide). 2.5x = 40px wide.
+                            // The SVG viewBox is 24x24, so scale = 40/24 = 1.66
+                            const scale = 1.66;
+                            ctx.scale(scale, scale);
+                            ctx.translate(-12, -12); // center the 24x24 SVG
+                            
+                            ctx.lineWidth = 2 / scale; // Keep border crisp
+                            
+                            // SVG Path for Lucide/React-Icons Star
+                            const starPath = new Path2D('M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z');
+                            ctx.fill(starPath);
+                            ctx.stroke(starPath);
+                            
+                            ctx.restore();
+                        }
+
+                        ctx.restore();
+                    }
+
+                    function drawHUDTerminal(c) {
+                        if (!c.isEdu) return;
+                        if (c.hoverVal <= 0.01) return;
+
+                        const cx = c.x;
+                        const cy = c.y;
+                        const colStr = `${c.color[0]}, ${c.color[1]}, ${c.color[2]}`;
+
+                        ctx.save();
+                        ctx.globalAlpha = c.hoverVal;
+
+                        const isMobile = cw < 768;
+                        const w = isMobile ? 220 : 260;
+                        const h = isMobile ? 220 : 205;
+
+                        // Layout position logic
+                        let px, py;
+
+                        if (isMobile) {
+                            px = cx - w / 2;
+                            py = cy - h - 30;
+                            if (py < 20) py = cy + 30;
+                        } else {
+                            px = cx + 35;
+                            py = cy - h / 2;
+                            if (px + w > cw - 20) px = cx - w - 35;
+                        }
+
+                        // Clamping
+                        const margin = 15;
+                        px = Math.max(margin, Math.min(cw - w - margin, px));
+                        py = Math.max(margin, Math.min(ch - h - margin, py));
+
+                        // 1. Brutalist drop shadow
+                        ctx.fillStyle = `rgba(${colStr}, 1)`;
+                        ctx.fillRect(px + 6, py + 6, w, h);
+
+                        // 2. Main Box Background
+                        ctx.fillStyle = '#0a0a0a';
+                        ctx.fillRect(px, py, w, h);
+
+                        // 3. Thick solid borders
+                        ctx.strokeStyle = '#f8f9fa';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(px, py, w, h);
+
+                        // 4. Header Block
+                        ctx.fillStyle = `rgba(${colStr}, 1)`;
+                        ctx.fillRect(px, py, w, 32);
+                        
+                        // Header Divider
+                        ctx.beginPath();
+                        ctx.moveTo(px, py + 32);
+                        ctx.lineTo(px + w, py + 32);
+                        ctx.stroke();
+
+                        ctx.font = "bold 11px 'JetBrains Mono', monospace";
+                        ctx.fillStyle = '#0a0a0a';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(c.label, px + 12, py + 16);
+
+                        ctx.textAlign = 'right';
+                        ctx.fillText('[ACADEMIC_RECORD]', px + w - 12, py + 16);
+
+                        // 5. Content
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'top';
+
+                        ctx.font = "900 15px 'Inter', sans-serif";
+                        ctx.fillStyle = '#f8f9fa';
+                        ctx.fillText(c.title, px + 16, py + 48);
+
+                        ctx.font = "700 12px 'JetBrains Mono', monospace";
+                        ctx.fillStyle = 'rgba(248, 249, 250, 0.8)';
+                        ctx.fillText(c.subtitle, px + 16, py + 70);
+
+                        ctx.font = "500 11px 'JetBrains Mono', monospace";
+                        ctx.fillStyle = 'rgba(248, 249, 250, 0.5)';
+                        ctx.fillText(c.duration, px + 16, py + 88);
+
+                        // Grade badge
+                        const gradeW = ctx.measureText(c.grade).width;
+                        ctx.fillStyle = `rgba(${colStr}, 0.15)`;
+                        ctx.fillRect(px + 16, py + 110, gradeW + 16, 24);
+                        ctx.strokeStyle = `rgba(${colStr}, 1)`;
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(px + 16, py + 110, gradeW + 16, 24);
+                        
+                        ctx.font = "bold 11px 'JetBrains Mono', monospace";
+                        ctx.fillStyle = `rgba(${colStr}, 1)`;
+                        ctx.fillText(c.grade, px + 24, py + 116);
+
+                        // Divider line
+                        ctx.beginPath();
+                        ctx.moveTo(px + 16, py + 148);
+                        ctx.lineTo(px + w - 16, py + 148);
+                        ctx.strokeStyle = 'rgba(248, 249, 250, 0.2)';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+
+                        // Additional bullets
+                        ctx.font = "600 10px 'JetBrains Mono', monospace";
+                        c.details.forEach((detail, i) => {
+                            const detailY = py + 160 + i * 20;
+                            ctx.fillStyle = 'rgba(248, 249, 250, 0.8)';
+                            ctx.fillText(`+ ${detail}`, px + 16, detailY);
+                        });
+
+                        ctx.restore();
+                    }
+
+                    function getSplinePoint(pts, t) {
+                        const len = pts.length;
+                        const p0 = pts[Math.floor(t - 1 + len) % len];
+                        const p1 = pts[Math.floor(t) % len];
+                        const p2 = pts[Math.floor(t + 1) % len];
+                        const p3 = pts[Math.floor(t + 2) % len];
+                        const f = t - Math.floor(t);
+                        const t0 = ((-f + 2) * f - 1) * f * 0.5;
+                        const t1 = (((3 * f - 5) * f) * f + 2) * 0.5;
+                        const t2 = ((-3 * f + 4) * f + 1) * f * 0.5;
+                        const t3 = ((f - 1) * f * f) * 0.5;
+                        return {
+                            x: p0.x * t0 + p1.x * t1 + p2.x * t2 + p3.x * t3,
+                            y: p0.y * t0 + p1.y * t1 + p2.y * t2 + p3.y * t3
+                        };
+                    }
+
+                    function drawRocket(frame) {
+                        // Waypoints tracing the perimeter of the constellation
+                        const pathOffsets = [
+                            { n: 0, dx: -40, dy: 10 },
+                            { n: 1, dx: -35, dy: -40 },
+                            { n: 2, dx: -20, dy: -40 },
+                            { n: 3, dx: -15, dy: -40 },
+                            { n: 6, dx: -10, dy: -45 },
+                            { n: 6, dx: 45, dy: -10 },
+                            { n: 5, dx: 45, dy: 20 },
+                            { n: 5, dx: 10, dy: 45 },
+                            { n: 4, dx: -20, dy: 45 },
+                            { n: 2, dx: 10, dy: 40 },
+                            { n: 1, dx: 25, dy: 40 },
+                            { n: 0, dx: 40, dy: 10 },
+                            { n: 0, dx: 10, dy: 40 },
+                            { n: 0, dx: -20, dy: 40 }
+                        ];
+
+                        const pts = pathOffsets.map(po => {
+                            const node = EDU[po.n];
+                            return { x: node.x + po.dx, y: node.y + po.dy };
+                        });
+
+                        // Check if positions are initialized
+                        if (pts.some(p => p.x === undefined || isNaN(p.x))) return;
+
+                        const speed = 0.003;
+                        const t = (frame * speed) % pts.length;
+                        
+                        const p = getSplinePoint(pts, t);
+                        // Sample slightly ahead for tangent
+                        const pNext = getSplinePoint(pts, (t + 0.05) % pts.length);
+                        const tangentAngle = Math.atan2(pNext.y - p.y, pNext.x - p.x);
+
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(tangentAngle + Math.PI / 4);
+
+                        const scale = 2;
+                        ctx.scale(scale, scale);
+                        ctx.translate(-12, -12);
+
+                        // Lucide Rocket SVG Path
+                        const rocketPath = new Path2D('M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z M9 12H4s.55-3.03 2-4c1.62-1.08 5-4 5-4v5');
+                        
+                        ctx.fillStyle = '#f8f9fa';
+                        ctx.strokeStyle = '#0a0a0a';
+                        ctx.lineWidth = 2 / scale;
+                        
+                        // Brutalist drop shadow for rocket
+                        ctx.save();
+                        ctx.translate(3/scale, 3/scale);
+                        ctx.fillStyle = '#0a0a0a';
+                        ctx.fill(rocketPath);
+                        ctx.restore();
+
+                        ctx.fill(rocketPath);
+                        ctx.stroke(rocketPath);
+
+                        // Animated flame flicker
+                        if (frame % 16 > 8) {
+                            ctx.beginPath();
+                            ctx.moveTo(3, 21);
+                            ctx.lineTo(6, 26);
+                            ctx.lineTo(0, 23);
+                            ctx.closePath();
+                            ctx.fillStyle = '#ffb86c';
+                            ctx.fill();
+                            ctx.stroke();
+                        } else {
+                            ctx.beginPath();
+                            ctx.moveTo(3, 21);
+                            ctx.lineTo(5, 25);
+                            ctx.lineTo(1, 22);
+                            ctx.closePath();
+                            ctx.fillStyle = '#f4f482';
+                            ctx.fill();
+                            ctx.stroke();
+                        }
+
+                        ctx.restore();
+                    }
+
+                    let frame = 0;
+                    function draw() {
+                        const W = cw;
+                        const H = ch;
+                        ctx.clearRect(0, 0, W, H);
+
+                        // Calculate/lerp positions based on responsiveness
+                        updatePositions();
+
+                        // Draw connection paths
+                        drawConnection(EDU[0], EDU[1]);
+                        drawConnection(EDU[1], EDU[2]);
+                        drawConnection(EDU[2], EDU[3]);
+                        drawConnection(EDU[3], EDU[4]);
+                        drawConnection(EDU[4], EDU[5]);
+                        drawConnection(EDU[5], EDU[6]);
+                        drawConnection(EDU[6], EDU[3]);
+
+                        // Hover logic for nodes
+                        EDU.forEach(c => {
+                            if (c.isEdu) {
+                                // distance to mouse
+                                const dist = Math.hypot(c.x - mx, c.y - my);
+                                const targetHover = (dist < 40) ? 1 : 0;
+                                if (c.hoverVal === undefined) c.hoverVal = 0;
+                                c.hoverVal += (targetHover - c.hoverVal) * 0.15;
+                            } else {
+                                c.hoverVal = 0;
+                            }
+                        });
+
+                        // Draw nodes
+                        EDU.forEach(c => drawNode(c));
+
+                        // Draw orbiting rocket
+                        drawRocket(frame);
+
+                        // Draw hovered node's HUD terminal (hovered drawn on top)
+                        EDU.forEach(c => drawHUDTerminal(c));
+
+                        frame++;
+                        requestAnimationFrame(draw);
+                    }
+                    draw();
+                })();
+
+        </script>
+
+        <!-- SYS.SUMMARY Section -->
+        <section id="summary"
+            class="horizontal-section neo-container flex flex-col justify-center border-l-2 border-border relative overflow-hidden">
+
+            <!-- Ghost bg text -->
+            <div
+                class="absolute inset-0 flex items-center justify-center opacity-[0.025] font-black text-[18vw] select-none pointer-events-none leading-none tracking-tighter z-0 uppercase">
+                README</div>
+
+            <div class="relative z-10 w-full max-w-5xl mx-auto">
+
+                <!-- Header -->
+                <div class="flex items-center gap-4 mb-10 reveal">
+                    <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-mono">// SUMMARY —
+                        README.EXE</span>
+                    <div class="flex-1 border-t border-border border-dashed"></div>
+                    <span class="text-[10px] font-mono text-gray-600 tracking-widest">v1.0.0</span>
+                </div>
+
+                <!-- Identity block -->
+                <div class="mb-10 reveal delay-100">
+                    <div class="neo-card p-6 border-l-4" style="border-left-color:#ea580c;">
+                        <div class="flex flex-col md:flex-row md:items-center gap-4">
+                            <div>
+                                <div class="text-[9px] font-mono tracking-[0.25em] text-orange-400 uppercase mb-1">//
+                                    PROCESS: IDENTITY</div>
+                                <h2
+                                    class="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-2">
+                                    Parth<span class="text-transparent" style="-webkit-text-stroke:1px #ea580c;">
+                                        Sharma</span></h2>
+                                <p class="font-mono text-xs text-gray-400 leading-relaxed max-w-2xl">B.Tech Information
+                                    Technology student · AI/ML researcher · Full-Stack developer · Photo &amp; Video
+                                    editor. Building at the intersection of intelligence and interface.</p>
+                            </div>
+                            <div class="md:ml-auto flex flex-col gap-1.5 shrink-0">
+                                <div class="neo-badge !border-orange" style="color:#ea580c; white-space:nowrap;">STATUS:
+                                    OPEN TO WORK</div>
+                                <div class="font-mono text-[9px] text-gray-600 text-right tracking-widest">2022 – 2026 ·
+                                    Delhi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section log grid -->
+                <div class="grid md:grid-cols-2 gap-4 mb-10">
+
+                    <!-- About -->
+                    <div class="neo-card hoverable p-4 reveal delay-100 flex gap-4 group">
+                        <div
+                            class="shrink-0 w-8 h-8 border border-border flex items-center justify-center text-green font-mono text-xs font-black">
+                            01</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">ABOUT
+                            </div>
+                            <div
+                                class="text-sm font-black uppercase tracking-tight group-hover:text-green transition-colors">
+                                ABOUT</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; Clinically
+                                reliable AI systems · open-source contributor · hackathon finalist · multi-disciplinary
+                                creator.</div>
+                        </div>
+                    </div>
+
+                    <!-- Projects -->
+                    <div class="neo-card hoverable p-4 reveal delay-150 flex gap-4 group">
+                        <div
+                            class="shrink-0 w-8 h-8 border border-border flex items-center justify-center text-pink font-mono text-xs font-black">
+                            02</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">PROJECTS
+                            </div>
+                            <div
+                                class="text-sm font-black uppercase tracking-tight group-hover:text-pink transition-colors">
+                                PROJECTS</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; Full-stack web
+                                apps · deep learning pipelines · IoT systems · browser extensions. Built to ship.</div>
+                        </div>
+                    </div>
+
+                    <!-- Research -->
+                    <div class="neo-card hoverable p-4 reveal delay-200 flex gap-4 group">
+                        <div class="shrink-0 w-8 h-8 border border-border flex items-center justify-center font-mono text-xs font-black"
+                            style="color:#a855f7;">03</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">RESEARCH
+                            </div>
+                            <div class="text-sm font-black uppercase tracking-tight transition-colors"
+                                style="color:inherit;" onmouseover="this.style.color='#a855f7'"
+                                onmouseout="this.style.color=''">RESEARCH</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; Medical AI ·
+                                dermatology classification · retinal OCT · published IEEE paper (IEEE Xplore, 2024).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="neo-card hoverable p-4 reveal delay-200 flex gap-4 group">
+                        <div
+                            class="shrink-0 w-8 h-8 border border-border flex items-center justify-center text-yellow font-mono text-xs font-black">
+                            04</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">EXPERIENCE
+                            </div>
+                            <div
+                                class="text-sm font-black uppercase tracking-tight group-hover:text-yellow transition-colors">
+                                EXPERIENCE</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; IIT Delhi
+                                (research intern) · Curo Wealth (dev intern) · Freelance photo &amp; video editor.</div>
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="neo-card hoverable p-4 reveal delay-300 flex gap-4 group">
+                        <div
+                            class="shrink-0 w-8 h-8 border border-border flex items-center justify-center text-blue font-mono text-xs font-black">
+                            05</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">EDUCATION
+                            </div>
+                            <div
+                                class="text-sm font-black uppercase tracking-tight group-hover:text-blue transition-colors">
+                                EDUCATION</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; B.Tech IT ·
+                                Sharda University · CGPA 7.5. XII CBSE 65% · X CBSE 70% · Don Bosco School.</div>
+                        </div>
+                    </div>
+
+                    <!-- Stack -->
+                    <div class="neo-card hoverable p-4 reveal delay-300 flex gap-4 group">
+                        <div
+                            class="shrink-0 w-8 h-8 border border-border flex items-center justify-center text-green font-mono text-xs font-black">
+                            06</div>
+                        <div>
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">STACK
+                            </div>
+                            <div
+                                class="text-sm font-black uppercase tracking-tight group-hover:text-green transition-colors">
+                                STACK</div>
+                            <div class="font-mono text-[10px] text-gray-500 mt-1 leading-relaxed">&gt; Python ·
+                                TypeScript · React · Next.js · PyTorch · TensorFlow · Firebase · FastAPI · Tailwind.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <a href="mailto:parthsharmaro2@gmail.com"
+                        class="neo-card hoverable p-4 reveal delay-350 flex gap-4 group cursor-none"
+                        style="text-decoration:none;" title="Send email">
+                        <div class="shrink-0 w-8 h-8 border border-border flex items-center justify-center font-mono text-xs font-black"
+                            style="color:#fb923c;">07</div>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">EMAIL
+                            </div>
+                            <div class="text-sm font-black uppercase tracking-tight mb-1 transition-colors"
+                                style="color:inherit;" onmouseover="this.style.color='#fb923c'"
+                                onmouseout="this.style.color=''">MAILTO</div>
+                            <div class="font-mono text-[10px] truncate" style="color:#fb923c; letter-spacing:0.04em;">
+                                parthsharmaro2@gmail.com</div>
+                        </div>
+                        <div class="ml-auto shrink-0 self-center opacity-40 group-hover:opacity-100 transition-opacity">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="#fb923c" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M7 17L17 7" />
+                                <path d="M7 7h10v10" />
+                            </svg>
+                        </div>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/pogth/" target="_blank" rel="noopener"
+                        class="neo-card hoverable p-4 reveal delay-350 flex gap-4 group cursor-none"
+                        style="text-decoration:none;" title="LinkedIn">
+                        <div class="shrink-0 w-8 h-8 border border-border flex items-center justify-center font-mono text-xs font-black"
+                            style="color:#90e0ef;">08</div>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-[9px] tracking-[0.2em] text-gray-500 font-mono uppercase mb-0.5">LINKEDIN
+                            </div>
+                            <div class="text-sm font-black uppercase tracking-tight mb-1 transition-colors"
+                                style="color:inherit;" onmouseover="this.style.color='#90e0ef'"
+                                onmouseout="this.style.color=''">CONNECT</div>
+                            <div class="font-mono text-[10px] truncate" style="color:#90e0ef; letter-spacing:0.04em;">
+                                linkedin.com/in/pogth</div>
+                        </div>
+                        <div class="ml-auto shrink-0 self-center opacity-40 group-hover:opacity-100 transition-opacity">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="#90e0ef" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M7 17L17 7" />
+                                <path d="M7 7h10v10" />
+                            </svg>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Bottom status bar — terminal style -->
+                <div class="reveal delay-400 border border-border bg-[#0c0c0c] px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] tracking-widest"
+                    style="color:#9ca3af;">
+                    <span style="color:#d1d5db; font-weight:700;">MODULES LOADED: <span
+                            style="color:#a3e635;">8</span></span>
+                    <span class="border-l border-border pl-6" style="color:#d1d5db; font-weight:700;">STACK: <span
+                            style="color:#a3e635;">FULL</span></span>
+                    <span class="border-l border-border pl-6" style="color:#d1d5db; font-weight:700;">AVAILABILITY:
+                        <span style="color:#fb923c; font-weight:800;">OPEN</span></span>
+                    <span class="border-l border-border pl-6 md:ml-auto"
+                        style="color:#d1d5db; font-weight:700;">LOCATION: <span style="color:#90e0ef;">DELHI</span></span>
+                    <span class="border-l border-border pl-6" style="color:#d1d5db; font-weight:700;">AGE: <span
+                            id="sys-age" style="color:#f4f482; font-weight:800;">—</span></span>
+                </div>
+                <script>
+                    (function () {
+                        const DOB = new Date(2004, 11, 6); // Dec 6, 2004 (month is 0-indexed)
+                        function calcAge() {
+                            const now = new Date();
+                            let yrs = now.getFullYear() - DOB.getFullYear();
+                            let mos = now.getMonth() - DOB.getMonth();
+                            let dys = now.getDate() - DOB.getDate();
+                            if (dys < 0) {
+                                mos--;
+                                dys += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+                            }
+                            if (mos < 0) { yrs--; mos += 12; }
+                            return `${yrs}Y ${mos}M ${dys}D`;
+                        }
+                        function tick() {
+                            const el = document.getElementById('sys-age');
+                            if (el) el.textContent = calcAge();
+                        }
+                        tick();
+                        setInterval(tick, 1000);
+                    })();
+                </script>
+
+            </div>
+        </section>
+
+
+    </div>
+
+    <!-- Interactive Scripts are now in script.js -->
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Chat App | Parth Sharma</title>
+    <meta name="description" content="Bidirectional real-time messaging system built with MERN Stack and Socket.io, supporting private and group chats with persistent MongoDB storage.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#111111',
+                        foreground: '#f8f9fa',
+                        pink: '#ff90e8',
+                        blue: '#90e0ef',
+                        yellow: '#f4f482',
+                        orange: '#ffb86c',
+                        green: '#a3e635',
+                        border: '#4a4a4a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { cursor: none !important; }
+        body { background: #111111; color: #f8f9fa; font-family: 'JetBrains Mono', monospace; }
+        #custom-cursor {
+            position: fixed; top: 0; left: 0;
+            width: 20px; height: 20px;
+            background: white; pointer-events: none;
+            mix-blend-mode: difference; z-index: 99999;
+            transition: transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out;
+            transform: translate(-50%, -50%);
+        }
+        body.cursor-hover #custom-cursor { width: 60px; height: 60px; border-radius: 50%; }
+        .dot-grid-bg {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .neo-box { border: 2px solid #f8f9fa; box-shadow: 6px 6px 0 0 #a3e635; }
+        .neo-badge {
+            border: 1px solid #4a4a4a;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .section-line { border-top: 1px solid #4a4a4a; }
+        a.nav-back {
+            border: 2px solid #f8f9fa;
+            box-shadow: 4px 4px 0 0 #a3e635;
+            transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        a.nav-back:hover { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 #a3e635; }
+        a.github-btn {
+            border: 2px solid #a3e635; color: #a3e635;
+            box-shadow: 4px 4px 0 0 #a3e635;
+            transition: all 0.2s ease;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        a.github-btn:hover { background: #a3e635; color: #111111; transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 #a3e635; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .animate-blink { animation: blink 1s step-end infinite; }
+        .stat-card { border: 2px solid #4a4a4a; padding: 1.5rem; background: #0a0a0a; }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .live-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background: #a3e635;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @media (hover: none) and (pointer: coarse) {
+            #custom-cursor { display: none !important; }
+            * { cursor: auto !important; }
+        }
+    </style>
+</head>
+<body class="dot-grid-bg min-h-screen">
+    <div id="custom-cursor"></div>
+
+    <div class="max-w-5xl mx-auto px-6 py-16">
+
+        <!-- Back Nav -->
+        <div class="mb-16">
+            <a href="../index.html#projects" class="nav-back font-mono font-bold text-xs tracking-widest uppercase px-6 py-3 text-foreground no-underline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                BACK_TO_PORTFOLIO
+            </a>
+        </div>
+
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-gray-500">// SYS.ID: 004</span>
+                <div class="flex-1 section-line"></div>
+                <div class="flex items-center gap-2">
+                    <span class="live-dot"></span>
+                    <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-green">REAL-TIME</span>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black uppercase leading-none mb-6">
+                REAL-TIME<br>
+                <span class="text-green">CHAT APP</span><span class="animate-blink text-orange">_</span>
+            </h1>
+            <p class="font-mono text-gray-400 text-base md:text-lg leading-relaxed max-w-2xl border-l-2 border-green pl-6">
+                A full-stack bidirectional messaging platform powered by Socket.io WebSockets, supporting private 1-on-1 chats and multi-user group rooms with persistent message storage in MongoDB.
+            </p>
+        </div>
+
+        <!-- GitHub CTA -->
+        <div class="mb-16">
+            <a href="https://github.com/Pogth/chat-app" target="_blank" rel="noopener" class="github-btn font-mono font-bold text-sm tracking-widest uppercase px-8 py-4 no-underline">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                VIEW_ON_GITHUB
+            </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">WS</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Protocol</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">&lt;50ms</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Latency</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">∞</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Persistent Msgs</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="text-3xl font-black text-green mb-1">N:N</div>
+                <div class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">Group Support</div>
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div class="space-y-12">
+
+            <!-- Overview -->
+            <div class="neo-box p-8">
+                <div class="font-mono text-[10px] tracking-widest text-green uppercase mb-4">// OVERVIEW</div>
+                <p class="font-mono text-sm text-gray-300 leading-relaxed mb-4">
+                    This application implements full-duplex, event-driven communication using the Socket.io library on top of WebSockets. The architecture supports both private (1-to-1) and group room messaging, with each room being isolated in its own Socket.io namespace.
+                </p>
+                <p class="font-mono text-sm text-gray-300 leading-relaxed">
+                    All messages are persisted in MongoDB, so chat history is available across sessions. The React frontend renders chat threads in real time using optimistic UI updates — messages appear instantly in the sender's UI before server acknowledgment.
+                </p>
+            </div>
+
+            <!-- Tech Stack -->
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">// TECH_STACK</span>
+                    <div class="flex-1 section-line"></div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="stat-card">
+                        <div class="font-mono text-[10px] text-green tracking-widest uppercase mb-3">Real-Time Layer</div>
+                        <ul class="font-mono text-sm text-gray-400 space-y-2">
+                            <li>→ Socket.io v4 (server + client)</li>
+                            <li>→ Room-based event namespacing</li>
+                            <li>→ Online presence tracking</li>
+                            <li>→ Typing indicator events</li>
+                            <li>→ Auto-reconnection handling</li>
+                        </ul>
+                    </div>
+                    <div class="stat-card">
+                        <div class="font-mono text-[10px] text-blue tracking-widest uppercase mb-3">App Layer</div>
+                        <ul class="font-mono text-sm text-gray-400 space-y-2">
+                            <li>→ React.js (SPA frontend)</li>
+                            <li>→ Node.js + Express (API server)</li>
+                            <li>→ MongoDB (message persistence)</li>
+                            <li>→ JWT authentication</li>
+                            <li>→ Zustand state management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Flow -->
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="font-mono text-[10px] tracking-widest text-gray-500 uppercase">// SOCKET_EVENT_FLOW</span>
+                    <div class="flex-1 section-line"></div>
+                </div>
+                <div class="font-mono text-sm space-y-3">
+                    <div class="flex gap-3 items-start">
+                        <span class="text-green font-bold flex-shrink-0">EMIT</span>
+                        <code class="text-gray-400">send_message → { roomId, content, senderId }</code>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <span class="text-blue font-bold flex-shrink-0">ON</span>
+                        <code class="text-gray-400">receive_message → broadcast to room members</code>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <span class="text-green font-bold flex-shrink-0">EMIT</span>
+                        <code class="text-gray-400">typing → { roomId, userId } (debounced 300ms)</code>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <span class="text-yellow font-bold flex-shrink-0">ACK</span>
+                        <code class="text-gray-400">message_saved → persist to MongoDB + confirm to sender</code>
+                    </div>
+                    <div class="flex gap-3 items-start">
+                        <span class="text-pink font-bold flex-shrink-0">ON</span>
+                        <code class="text-gray-400">user_disconnected → update presence, notify room</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Challenges -->
+            <div class="neo-box p-8" style="border-color: #4a4a4a; box-shadow: 6px 6px 0 0 #4a4a4a;">
+                <div class="font-mono text-[10px] tracking-widest text-yellow uppercase mb-4">// CHALLENGES &amp; SOLUTIONS</div>
+                <div class="space-y-4 font-mono text-sm text-gray-400">
+                    <div class="flex gap-4">
+                        <span class="text-yellow flex-shrink-0">01.</span>
+                        <div><span class="text-foreground font-bold">Message Ordering</span> — With async delivery, messages can arrive out-of-order under load. Added server-assigned sequence numbers and client-side sorting by timestamp.</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-yellow flex-shrink-0">02.</span>
+                        <div><span class="text-foreground font-bold">Scalability</span> — A single Node.js process handles Socket.io rooms well, but horizontal scaling requires shared state. Used Redis adapter for Socket.io to share room state across instances.</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-yellow flex-shrink-0">03.</span>
+                        <div><span class="text-foreground font-bold">Optimistic UI Consistency</span> — Showing a message immediately before server confirmation risks showing messages that fail. Added rollback logic: failed messages show a retry indicator and are rolled back from the UI state.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div>
+                <div class="flex flex-wrap gap-3">
+                    <span class="neo-badge text-green">MERN Stack</span>
+                    <span class="neo-badge text-green">Socket.io</span>
+                    <span class="neo-badge text-green">React.js</span>
+                    <span class="neo-badge text-blue">Node.js</span>
+                    <span class="neo-badge text-blue">MongoDB</span>
+                    <span class="neo-badge text-yellow">WebSockets</span>
+                    <span class="neo-badge text-gray-400">JWT</span>
+                    <span class="neo-badge text-gray-400">Redis Adapter</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+    </script>
+</body>
+</html>
